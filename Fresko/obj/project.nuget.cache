@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oSdrdb+gMvf/9LkzbYhgVT4SE7tCzm54x07+L1AH2ZedqvAXnUDG5YlDfE/lZfWL2iAPrL8CT3gZmyX4UIwzUg==",
+  "dgSpecHash": "DjR93JtEYHUaeMbU8Jh4P0iSX5llrFYyAzQ6t/rVnLKhR6cMXEjec9AJEfpaxi0dvz0yVRXQ8xmre/9chdECVA==",
   "success": true,
   "projectFilePath": "D:\\fresko-cms-hakaton-2023\\Fresko\\Fresko.csproj",
   "expectedPackageFiles": [
@@ -21,8 +21,8 @@
     "C:\\Users\\Teodora\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Teodora\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
     "C:\\Users\\Teodora\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
-    "C:\\Users\\Teodora\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
-    "C:\\Users\\Teodora\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Teodora\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0\\microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
+    "C:\\Users\\Teodora\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\Teodora\\.nuget\\packages\\microsoft.extensions.dependencymodel\\7.0.0\\microsoft.extensions.dependencymodel.7.0.0.nupkg.sha512",
     "C:\\Users\\Teodora\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
     "C:\\Users\\Teodora\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Fresko")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac4d56c48c31a79d88d32c92355a325349dc7f10")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+70b0c1811b15c982fb91291cc9cd5d61f654b0e7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Fresko")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Fresko")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fresko.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231124151906_test2")]
-    partial class test2
+    [Migration("20231124152838_init-pagecontent")]
+    partial class initpagecontent
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

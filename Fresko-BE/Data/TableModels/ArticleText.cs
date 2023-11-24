@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fresko.Data.TableModels
+namespace Fresko_BE.Data.TableModels
 {
     [Table("article_text")]
     public class ArticleText
@@ -11,6 +11,6 @@ namespace Fresko.Data.TableModels
         [Required, StringLength(250), DataType(DataType.Html)]
         public string text { get; set; }
 
-        private Content content_type = new Content();
+        private AllComponents content_type = new AllComponents();
     }
 }

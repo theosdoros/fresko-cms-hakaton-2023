@@ -1,5 +1,5 @@
-﻿using Fresko.Data;
-using Fresko.Data.TableModels;
+﻿using Fresko_BE.Data;
+using Fresko_BE.Data.TableModels;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 
@@ -8,9 +8,16 @@ namespace MSSQLApp.Data
     public class AppDbContext : DbContext
     {
         public IConfiguration _config { get; set; }
+        // tables
+        public DbSet<ArticleText> Articles { get; set; }
+        public DbSet<FilePicker> Files { get; set; }
+        public DbSet<ImagePicker> Images { get; set; }
+        public DbSet<LinkPicker> Links { get; set; }
+        public DbSet<Page> Pages { get; set; }
+        public DbSet<AllComponents> Component { get; set; }
 
 
-    public AppDbContext(IConfiguration config)
+        public AppDbContext(IConfiguration config)
         {
             _config = config;
         }
@@ -27,27 +34,20 @@ namespace MSSQLApp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Page>()
-                .HasMany(e => e.Content)
+                .HasMany(e => e.Components)
                 .WithMany(e => e.Pages)
                 .UsingEntity(
                     "page_content",
-                    l => l.HasOne(typeof(Content)).WithMany().HasForeignKey("content_id").HasPrincipalKey(nameof(Content.id)),
+                    l => l.HasOne(typeof(AllComponents)).WithMany().HasForeignKey("content_id").HasPrincipalKey(nameof(AllComponents.id)),
                     r => r.HasOne(typeof(Page)).WithMany().HasForeignKey("page_id").HasPrincipalKey(nameof(Page.id)),
                     j => j.HasKey("page_id", "content_id"));
 
-            modelBuilder.Entity<Content>().HasData(new Content { id = 1, name = "article_text" });
-            modelBuilder.Entity<Content>().HasData(new Content { id = 2, name = "file_picker" });
-            modelBuilder.Entity<Content>().HasData(new Content { id = 3, name = "image_picker" });
-            modelBuilder.Entity<Content>().HasData(new Content { id = 4, name = "link_picker" });
+            modelBuilder.Entity<AllComponents>().HasData(new AllComponents { id = 1, name = "article_text" });
+            modelBuilder.Entity<AllComponents>().HasData(new AllComponents { id = 2, name = "file_picker" });
+            modelBuilder.Entity<AllComponents>().HasData(new AllComponents { id = 3, name = "image_picker" });
+            modelBuilder.Entity<AllComponents>().HasData(new AllComponents { id = 4, name = "link_picker" });
         }
 
-        //add tables
-        DbSet<ArticleText> Articles { get; set; }
-        DbSet<FilePicker> Files { get; set; }
-        DbSet<ImagePicker> Images { get; set; }
-        DbSet<LinkPicker> Links { get; set; }
-        DbSet<Page> Pages { get; set; }
-        DbSet<Content> ContentModel { get; set; }
 
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Fresko_BE.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class initialsetup : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,42 +43,42 @@ namespace Fresko_BE.Migrations
                 name: "file_picker",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     absolute_path = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_file_picker", x => x.Id);
+                    table.PrimaryKey("PK_file_picker", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "image_picker",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     absolute_path = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_image_picker", x => x.Id);
+                    table.PrimaryKey("PK_image_picker", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "link_picker",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     url = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     name_overwrite = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_link_picker", x => x.Id);
+                    table.PrimaryKey("PK_link_picker", x => x.id);
                 });
 
             migrationBuilder.CreateTable(

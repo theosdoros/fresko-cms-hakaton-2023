@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fresko.Data.TableModels
+namespace Fresko_BE.Data.TableModels
 {
     [Table("all_components")]
-    public class Content
+    public class AllComponents
     {
         [Required, Key]
         public int id { get; set; }

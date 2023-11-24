@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fresko.Data.TableModels
+namespace Fresko_BE.Data.TableModels
 {
     [Table("pages")]
     public class Page
@@ -15,6 +15,6 @@ namespace Fresko.Data.TableModels
         [Required, DataType(DataType.DateTime)]
         public DateTime creation_date { get; set; }
         [Required] 
-        public List<Content> Content { get; } = new();
+        public List<AllComponents> Components { get; } = new();
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fresko.Data.TableModels
+namespace Fresko_BE.Data.TableModels
 {
     [Table("image_picker")]
     public class ImagePicker
     {
         [Required, Key]
-        public int Id { get; set; }
+        public int id { get; set; }
         [Required, StringLength(255), DataType(DataType.Text)]
         public string absolute_path { get; set; }
         [Required, StringLength(255), DataType(DataType.Html)]
@@ -15,6 +15,6 @@ namespace Fresko.Data.TableModels
 
 
 
-        private Content content_type = new Content();
+        private AllComponents content_type = new AllComponents();
     }
 }

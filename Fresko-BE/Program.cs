@@ -21,6 +21,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseCors(builder =>
+    builder
+        .WithOrigins("*")
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -43,7 +49,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-app.UseCors();
 
 app.MapControllerRoute(
     name: "default",

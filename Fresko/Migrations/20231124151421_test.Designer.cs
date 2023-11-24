@@ -4,6 +4,7 @@ using MSSQLApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fresko.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231124151421_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,28 +59,6 @@ namespace Fresko.Migrations
                     b.HasKey("id");
 
                     b.ToTable("all_components");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            name = "article_text"
-                        },
-                        new
-                        {
-                            id = 2,
-                            name = "file_picker"
-                        },
-                        new
-                        {
-                            id = 3,
-                            name = "image_picker"
-                        },
-                        new
-                        {
-                            id = 4,
-                            name = "link_picker"
-                        });
                 });
 
             modelBuilder.Entity("Fresko.Data.TableModels.FilePicker", b =>

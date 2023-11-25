@@ -6,7 +6,7 @@ namespace Fresko_BE.Data.TableModels
     [Table("image_picker")]
     public class ImagePicker
     {
-        [Required, Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity), Key]
         public int id { get; set; }
         [Required, StringLength(255), DataType(DataType.Text)]
         public string absolute_path { get; set; }

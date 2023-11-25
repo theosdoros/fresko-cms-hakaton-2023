@@ -1,6 +1,9 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using Fresko_BE.Data.TableModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MSSQLApp.Data;
 
 namespace Fresko_BE.Data.Auth
@@ -8,9 +11,11 @@ namespace Fresko_BE.Data.Auth
     public class AuthRepository : IAuthRepository
     {
         private readonly AppDbContext _dbContext;
-        public AuthRepository(AppDbContext dbContext)
+        private readonly IConfiguration _configuration;
+        public AuthRepository(AppDbContext dbContext, IConfiguration configuration)
         {
             _dbContext = dbContext;
+            _configuration = configuration;
         }
         public async Task<string> Login(string username, string password)
         {
@@ -22,7 +27,8 @@ namespace Fresko_BE.Data.Auth
                 return "Wrong Password";
             }
 
-            return "Login SUCCESS";
+            string response = CreateToken(user);
+            return "Login SUCCESS " + response;
         }
 
         public async Task<string> Register(User user, string password)
@@ -60,6 +66,37 @@ namespace Fresko_BE.Data.Auth
                 return computedHash.SequenceEqual(passwordHash);
             }
         }
+
+        private string CreateToken(User user){
+
+            var claims = new List<Claim>{
+                new Claim(ClaimTypes.NameIdentifier, user.id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username)
+            };
+
+            var appToken = _configuration.GetSection("AppSettings:Token").Value;
+            if(appToken is null){
+                throw new Exception("AppSettings Token is null!");
+            }
+
+            SymmetricSecurityKey key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(appToken));
+
+            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var tokenDescriptor = new SecurityTokenDescriptor {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
+            };
+
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+            
+        }
+
+
     }
 
 }

@@ -25,16 +25,16 @@ namespace Fresko_BE.Controllers
 
         //GET
         [HttpGet]
-        public IActionResult Create()
+        public string Create()
         {
-            return View();
+            return "RADI";
         }
 
         //POST
         [HttpPost]
-        public IActionResult Create([FromBody] ArticleTextModel obj)
+        public ArticleText Create([FromBody] ArticleTextModel obj)
         {
-            if (ModelState.IsValid)
+            try
             {
                 var newObj = new ArticleText()
                 {
@@ -44,29 +44,29 @@ namespace Fresko_BE.Controllers
                 _database.Articles.Add(newObj);
                 _database.SaveChanges();
                 TempData["success"] = "Article text created successfully.";
-                return RedirectToAction("Index");
-            }
-
-            return View();
+                return newObj;
+            } catch (Exception e) {
+                throw;
+            } 
         }
 
         //GET
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<ArticleText> Edit(int? id)
         {
             if (id == null || id == 0)
             {
-                return NotFound();
+                return null;
             }
 
-            var articleTextFromDatabase = _database.Articles.Find(id);
+            var articleTextFromDatabase = await _database.Articles.FindAsync(id);
 
             if (articleTextFromDatabase == null)
             {
-                return NotFound();
+                return null;
             }
 
-            return View(articleTextFromDatabase);
+            return articleTextFromDatabase;
         }
 
         //POST

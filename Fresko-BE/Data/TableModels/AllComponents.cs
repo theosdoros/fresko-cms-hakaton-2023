@@ -6,7 +6,8 @@ namespace Fresko_BE.Data.TableModels
     [Table("all_components")]
     public class AllComponents
     {
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity), Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
         public int id { get; set; }
         [Required, StringLength(64)]
         public string name { get; set; }

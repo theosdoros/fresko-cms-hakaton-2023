@@ -38,7 +38,6 @@ namespace Fresko_BE.Controllers
             {
                 var objekat = new Page()
                 {
-                    id = obj.Id,
                     parent_id = obj.ParentId,
                     page_name = obj.PageName,
                     creation_date = obj.CreationDate

@@ -6,7 +6,8 @@ namespace Fresko_BE.Data.TableModels
     [Table("pages")]
     public class Page
     {
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity), Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
         public int id { get; set; }
         [Required]
         public int parent_id { get; set; }

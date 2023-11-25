@@ -6,7 +6,8 @@ namespace Fresko_BE.Data.TableModels
     [Table("file_picker")]
     public class FilePicker
     {
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity), Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
         public int id { get; set; }
         [Required, StringLength(255), DataType(DataType.Text)]
         public string absolute_path { get; set; }

@@ -18,7 +18,7 @@ namespace Fresko_BE.Controllers
         [HttpPost]
         public async Task<ActionResult<string>> Register(UserRegisterDto request){
             var response = await _authRepo.Register(
-                new User {Username = request.Username}, request.Password
+                new User {Username = request.Username, Email = request.Email, Approved = false}, request.Password
             );
             if(response == "Failed" ){
                 return BadRequest(response);

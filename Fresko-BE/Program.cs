@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(c =>
   {
       c.AddServer(new OpenApiServer
       {
-          Url = "https://localhost:7252"
+          Url = "http://localhost:5292"
       });
       c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
   });

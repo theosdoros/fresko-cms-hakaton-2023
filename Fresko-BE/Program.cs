@@ -19,7 +19,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen (c =>
   {
     c.AddServer(new OpenApiServer{
-        Url = "http://localhost:5292"
+        Url = "https://localhost:7252"
     });
     c.ResolveConflictingActions (apiDescriptions => apiDescriptions.First ());
   });

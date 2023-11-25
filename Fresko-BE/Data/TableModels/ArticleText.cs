@@ -6,7 +6,8 @@ namespace Fresko_BE.Data.TableModels
     [Table("article_text")]
     public class ArticleText
     {
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity), Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
         public int id { get; set; }
         [Required, StringLength(250), DataType(DataType.Html)]
         public string text { get; set; }

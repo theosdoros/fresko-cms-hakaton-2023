@@ -7,11 +7,11 @@ namespace Fresko_BE.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    public class PageController : Controller
+    public class ImageController : Controller
     {
-        
+
         private readonly AppDbContext _database;
-        public PageController(AppDbContext database)
+        public ImageController(AppDbContext database)
         {
             _database = database;
         }
@@ -31,20 +31,19 @@ namespace Fresko_BE.Controllers
 
         //POST
         [HttpPost]
-        public IActionResult Create([FromBody] PageModel obj)
+        public IActionResult Create([FromBody] ImagePickerModel obj)
         {
             if (ModelState.IsValid)
             {
-                var newObj = new Page()
+                var newObj = new ImagePicker()
                 {
-                    parent_id = obj.ParentId,
-                    page_name = obj.PageName,
-                    creation_date = obj.CreationDate
+                    absolute_path = obj.AbsolutePath,
+                    description = obj.Description
                 };
 
-                _database.Pages.Add(newObj);
+                _database.Images.Add(newObj);
                 _database.SaveChanges();
-                TempData["success"] = "Page created successfully.";
+                TempData["success"] = "Image created successfully.";
                 return RedirectToAction("Index");
             }
 
@@ -60,35 +59,34 @@ namespace Fresko_BE.Controllers
                 return NotFound();
             }
 
-            var pageFromDatabase = _database.Pages.Find(id);
+            var imagePickerFromDatabase = _database.Images.Find(id);
 
-            if (pageFromDatabase == null)
+            if (imagePickerFromDatabase == null)
             {
                 return NotFound();
             }
 
-            return View(pageFromDatabase);
+            return View(imagePickerFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult Edit([FromBody] PageModel obj)
+        public IActionResult Edit([FromBody] ImagePickerModel obj)
         {
 
             if (ModelState.IsValid)
             {
-                var newObj = new Page()
+                var newObj = new ImagePicker()
                 {
                     id = obj.Id,
-                    parent_id = obj.ParentId,
-                    page_name = obj.PageName,
-                    creation_date = obj.CreationDate
+                    absolute_path = obj.AbsolutePath,
+                    description = obj.Description
                 };
 
 
-                _database.Pages.Update(newObj);
+                _database.Images.Update(newObj);
                 _database.SaveChanges();
-                TempData["success"] = "Page edited successfully.";
+                TempData["success"] = "Image edited successfully.";
                 return RedirectToAction("Index");
             }
 
@@ -104,31 +102,30 @@ namespace Fresko_BE.Controllers
                 return NotFound();
             }
 
-            var pageFromDatabase = _database.Pages.Find(id);
+            var imagePickerFromDatabase = _database.Images.Find(id);
 
-            if (pageFromDatabase == null)
+            if (imagePickerFromDatabase == null)
             {
                 return NotFound();
             }
 
-            return View(pageFromDatabase);
+            return View(imagePickerFromDatabase);
         }
 
         //POST
         [HttpPost]
         public IActionResult DeletePOST(int? id)
         {
-            var obj = _database.Pages.Find(id);
+            var obj = _database.Images.Find(id);
             if (obj == null)
             {
                 return NotFound();
             }
 
-            _database.Pages.Remove(obj);
+            _database.Images.Remove(obj);
             _database.SaveChanges();
-            TempData["success"] = "Game deleted successfully.";
+            TempData["success"] = "Image deleted successfully.";
             return RedirectToAction("Index");
-
         }
     }
 }

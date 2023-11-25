@@ -7,11 +7,11 @@ namespace Fresko_BE.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    public class PageController : Controller
+    public class LinkPickerController : Controller
     {
-        
+
         private readonly AppDbContext _database;
-        public PageController(AppDbContext database)
+        public LinkPickerController(AppDbContext database)
         {
             _database = database;
         }
@@ -31,20 +31,20 @@ namespace Fresko_BE.Controllers
 
         //POST
         [HttpPost]
-        public IActionResult Create([FromBody] PageModel obj)
+        public IActionResult Create([FromBody] LinkPickerModel obj)
         {
             if (ModelState.IsValid)
             {
-                var newObj = new Page()
+                var newObj = new LinkPicker()
                 {
-                    parent_id = obj.ParentId,
-                    page_name = obj.PageName,
-                    creation_date = obj.CreationDate
+                    url = obj.Url,
+                    name_overwrite = obj.NameOverwrite
+
                 };
 
-                _database.Pages.Add(newObj);
+                _database.Links.Add(newObj);
                 _database.SaveChanges();
-                TempData["success"] = "Page created successfully.";
+                TempData["success"] = "Link picker created successfully.";
                 return RedirectToAction("Index");
             }
 
@@ -60,35 +60,34 @@ namespace Fresko_BE.Controllers
                 return NotFound();
             }
 
-            var pageFromDatabase = _database.Pages.Find(id);
+            var linkPickerFromDatabase = _database.Pages.Find(id);
 
-            if (pageFromDatabase == null)
+            if (linkPickerFromDatabase == null)
             {
                 return NotFound();
             }
 
-            return View(pageFromDatabase);
+            return View(linkPickerFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult Edit([FromBody] PageModel obj)
+        public IActionResult Edit([FromBody] LinkPickerModel obj)
         {
 
             if (ModelState.IsValid)
             {
-                var newObj = new Page()
+                var newObj = new LinkPicker()
                 {
                     id = obj.Id,
-                    parent_id = obj.ParentId,
-                    page_name = obj.PageName,
-                    creation_date = obj.CreationDate
+                    url = obj.Url,
+                    name_overwrite = obj.NameOverwrite
                 };
 
 
-                _database.Pages.Update(newObj);
+                _database.Links.Update(newObj);
                 _database.SaveChanges();
-                TempData["success"] = "Page edited successfully.";
+                TempData["success"] = "Link picker edited successfully.";
                 return RedirectToAction("Index");
             }
 
@@ -104,31 +103,30 @@ namespace Fresko_BE.Controllers
                 return NotFound();
             }
 
-            var pageFromDatabase = _database.Pages.Find(id);
+            var linkPickerFromDatabase = _database.Pages.Find(id);
 
-            if (pageFromDatabase == null)
+            if (linkPickerFromDatabase == null)
             {
                 return NotFound();
             }
 
-            return View(pageFromDatabase);
+            return View(linkPickerFromDatabase);
         }
 
         //POST
         [HttpPost]
         public IActionResult DeletePOST(int? id)
         {
-            var obj = _database.Pages.Find(id);
+            var obj = _database.Links.Find(id);
             if (obj == null)
             {
                 return NotFound();
             }
 
-            _database.Pages.Remove(obj);
+            _database.Links.Remove(obj);
             _database.SaveChanges();
-            TempData["success"] = "Game deleted successfully.";
+            TempData["success"] = "Link picker deleted successfully.";
             return RedirectToAction("Index");
-
         }
     }
 }

@@ -2,6 +2,7 @@
 using Fresko_BE.Models;
 using Fresko_BE.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MSSQLApp.Data;
 
 
@@ -51,79 +52,76 @@ namespace Fresko_BE.Controllers
 
         //GET
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            var articleTextFromDatabase = _database.Articles.Find(id);
+            var articleTextFromDatabase = await _database.Articles.FindAsync(id);
 
             if (articleTextFromDatabase == null)
             {
                 return NotFound();
             }
 
-            return View(articleTextFromDatabase);
+            return Ok(articleTextFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult Edit([FromBody] ArticleTextModel obj)
+        public async Task<IActionResult> Edit([FromBody] ArticleTextModel model)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                var newObj = new ArticleText()
-                {
-                    id = obj.Id,
-                    text = obj.Text
-                };
-
+                ArticleText newObj = ComponentsService.UpdateComponent(model); 
 
                 _database.Articles.Update(newObj);
-                _database.SaveChanges();
+                await _database.SaveChangesAsync();
                 TempData["success"] = "Article text edited successfully.";
-                return RedirectToAction("Index");
-            }
+                return Ok(model);
+            } 
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }    
 
-            return View();
         }
 
         //GET
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var articleTextFromDatabase = _database.Articles.Find(id);
+            var articleTextFromDatabase = await _database.Articles.FindAsync(id);
 
             if (articleTextFromDatabase == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            return View(articleTextFromDatabase);
+            return Ok(articleTextFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult DeletePOST(int? id)
+        public async Task<IActionResult> DeletePOST(int? id)
         {
-            var obj = _database.Articles.Find(id);
+            var obj = await _database.Articles.FindAsync(id);
             if (obj == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             _database.Articles.Remove(obj);
-            _database.SaveChanges();
+            await _database.SaveChangesAsync();
             TempData["success"] = "Article text deleted successfully.";
-            return RedirectToAction("Index");
+            return Ok(obj);
 
         }
     }

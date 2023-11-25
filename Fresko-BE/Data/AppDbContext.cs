@@ -15,7 +15,6 @@ namespace MSSQLApp.Data
         public DbSet<LinkPicker> Links { get; set; }
         public DbSet<Page> Pages { get; set; }
         public DbSet<AllComponents> Component { get; set; }
-
         public DbSet<User> Users { get; set; }
 
 

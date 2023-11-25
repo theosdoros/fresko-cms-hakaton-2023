@@ -1,6 +1,7 @@
 ﻿using Fresko_BE.Data.TableModels;
 using Fresko_BE.Models;
 using Fresko_BE.Models.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
 using MSSQLApp.Data;
 
@@ -26,59 +27,125 @@ namespace Fresko_BE.Services
             return article;
         }
 
-        public static void AddComponent(FilePickerModel filePicker)
+        public static FilePicker AddComponent(FilePickerModel filePicker)
         {
-            try
-            {
-                if (filePicker.AbsolutePath.IsNullOrEmpty()) return;
-                var file = new FilePicker()
-                {
-                    absolute_path = filePicker.AbsolutePath,
-                    description = filePicker.Description
-                };
-                _db.Files.Add(file);
-            }
-            catch (Exception ex)
-            {
+            
+            if (filePicker.AbsolutePath.IsNullOrEmpty()) return null;
 
-            }
+            var file = new FilePicker()
+            {
+                absolute_path = filePicker.AbsolutePath,
+                description = filePicker.Description
+            };
+
+            return file;
 
         }
-        public static void AddComponent(ImagePickerModel imagePicker)
+        public static ImagePicker AddComponent(ImagePickerModel imagePicker)
         {
-            try
-            {
-                if (imagePicker.AbsolutePath.IsNullOrEmpty()) return;
+            if (imagePicker.AbsolutePath.IsNullOrEmpty()) return null;
 
-                var image = new ImagePicker()
-                {
-                    absolute_path = imagePicker.AbsolutePath,
-                    description = imagePicker.Description
-                };
-                _db.Images.Add(image);
-            }
-            catch (Exception ex)
+            var image = new ImagePicker()
             {
+                absolute_path = imagePicker.AbsolutePath,
+                description = imagePicker.Description
+            };
 
-            }
+            return image;
         }
-        public static void AddComponent(LinkPickerModel linkPicker)
+        public static LinkPicker AddComponent(LinkPickerModel linkPicker)
         {
-            try
-            {
-                if (linkPicker.Url.IsNullOrEmpty()) return;
+            if (linkPicker.Url.IsNullOrEmpty()) return null;
 
-                var link = new LinkPicker()
-                {
-                    url = linkPicker.Url,
-                    name_overwrite = linkPicker.NameOverwrite
-                };
-                _db.Links.Add(link);
-            }
-            catch (Exception ex)
+            var link = new LinkPicker()
             {
+                url = linkPicker.Url,
+                name_overwrite = linkPicker.NameOverwrite
+            };
 
-            }
+            return link;
+        }
+
+        public static Page AddComponent(PageModel page)
+        {
+            if (page.PageName.IsNullOrEmpty()) return null;
+
+            var newPage = new Page()
+            {
+                parent_id = page.ParentId,
+                page_name = page.PageName       
+            };
+
+            return newPage;
+        }
+
+        public static ArticleText UpdateComponent(ArticleTextModel articleText)
+        {
+            if (articleText.Text.IsNullOrEmpty()) return null;
+
+            var article = new ArticleText()
+            {
+                id = articleText.Id,
+                text = articleText.Text
+            };
+
+            return article;
+        }
+
+        public static FilePicker UpdateComponent(FilePickerModel filePicker)
+        {
+            if (filePicker.AbsolutePath.IsNullOrEmpty()) return null;
+            var file = new FilePicker()
+            {
+                id = filePicker.Id,
+                absolute_path = filePicker.AbsolutePath,
+                description = filePicker.Description
+            };
+
+            return file;
+
+        }
+
+        public static ImagePicker UpdateComponent(ImagePickerModel imagePicker)
+        {
+            if (imagePicker.AbsolutePath.IsNullOrEmpty()) return null;
+
+            var image = new ImagePicker()
+            {
+                id = imagePicker.Id,
+                absolute_path = imagePicker.AbsolutePath,
+                description = imagePicker.Description
+            };
+
+            return image;
+        }
+
+        public static LinkPicker UpdateComponent(LinkPickerModel linkPicker)
+        {
+            if (linkPicker.Url.IsNullOrEmpty()) return null;
+
+            var link = new LinkPicker()
+            {
+                id = linkPicker.Id,
+                url = linkPicker.Url,
+                name_overwrite = linkPicker.NameOverwrite
+            };
+
+            return link;
+        }
+
+        public static Page UpdateComponent(PageModel page)
+        {
+            if (page.PageName.IsNullOrEmpty()) return null;
+
+            var newPage = new Page()
+            {
+                id = page.Id,
+                parent_id = page.ParentId,
+                page_name = page.PageName
+            };
+
+            return newPage;
         }
 
         public static void RemoveComponent(IComponent component)
@@ -118,7 +185,6 @@ namespace Fresko_BE.Services
                     text = articleText.Text
                 };
 
-                _db.Articles.Remove(article);
             }
             catch (Exception ex)
             {
@@ -134,7 +200,6 @@ namespace Fresko_BE.Services
                     absolute_path = filePicker.AbsolutePath,
                     description = filePicker.Description
                 };
-                _db.Files.Remove(file);
             }
             catch (Exception ex)
             {
@@ -153,7 +218,6 @@ namespace Fresko_BE.Services
                     absolute_path = imagePicker.AbsolutePath,
                     description = imagePicker.Description
                 };
-                _db.Images.Remove(image);
             }
             catch (Exception ex)
             {
@@ -171,7 +235,24 @@ namespace Fresko_BE.Services
                     url = linkPicker.Url,
                     name_overwrite = linkPicker.NameOverwrite
                 };
-                _db.Links.Remove(link);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public static void RemoveComponent(PageModel page)
+        {
+            try
+            {
+                if (page.PageName.IsNullOrEmpty()) return;
+
+                var link = new Page()
+                {
+                    page_name = page.PageName,
+                    parent_id = page.ParentId
+                };
             }
             catch (Exception ex)
             {

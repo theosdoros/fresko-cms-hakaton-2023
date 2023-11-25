@@ -28,7 +28,7 @@ namespace Fresko_BE.Data.Auth
             }
 
             string response = CreateToken(user);
-            return "Login SUCCESS " + response;
+            return response;
         }
 
         public async Task<string> Register(User user, string password)
@@ -71,7 +71,9 @@ namespace Fresko_BE.Data.Auth
 
             var claims = new List<Claim>{
                 new Claim(ClaimTypes.NameIdentifier, user.id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Is_admin.ToString()),
+                new Claim(ClaimTypes.Actor, user.Approved.ToString())
             };
 
             var appToken = _configuration.GetSection("AppSettings:Token").Value;
@@ -93,7 +95,7 @@ namespace Fresko_BE.Data.Auth
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
-            
+
         }
 
 

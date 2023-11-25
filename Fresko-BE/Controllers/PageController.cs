@@ -1,5 +1,6 @@
 ﻿using Fresko_BE.Data.TableModels;
 using Fresko_BE.Models;
+using Fresko_BE.Services;
 using Microsoft.AspNetCore.Mvc;
 using MSSQLApp.Data;
 
@@ -24,111 +25,102 @@ namespace Fresko_BE.Controllers
 
         //GET
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            return Ok();
         }
 
         //POST
         [HttpPost]
-        public IActionResult Create([FromBody] PageModel obj)
+        public async Task<IActionResult> Create([FromBody] PageModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var newObj = new Page()
-                {
-                    parent_id = obj.ParentId,
-                    page_name = obj.PageName,
-                    creation_date = obj.CreationDate
-                };
+                Page page = ComponentsService.AddComponent(model);
 
-                _database.Pages.Add(newObj);
-                _database.SaveChanges();
-                TempData["success"] = "Page created successfully.";
-                return RedirectToAction("Index");
+                await _database.Pages.AddAsync(page);
+                await _database.SaveChangesAsync();
+
+                return Ok(model);
             }
-
-            return View();
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         //GET
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            var pageFromDatabase = _database.Pages.Find(id);
+            var pageFromDatabase = await _database.Pages.FindAsync(id);
 
             if (pageFromDatabase == null)
             {
                 return NotFound();
             }
 
-            return View(pageFromDatabase);
+            return Ok(pageFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult Edit([FromBody] PageModel obj)
+        public async Task<IActionResult> Edit([FromBody] PageModel model)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                var newObj = new Page()
-                {
-                    id = obj.Id,
-                    parent_id = obj.ParentId,
-                    page_name = obj.PageName,
-                    creation_date = obj.CreationDate
-                };
-
+                var newObj = ComponentsService.UpdateComponent(model);
 
                 _database.Pages.Update(newObj);
-                _database.SaveChanges();
+                await _database.SaveChangesAsync();
                 TempData["success"] = "Page edited successfully.";
-                return RedirectToAction("Index");
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
             }
 
-            return View();
         }
 
         //GET
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var pageFromDatabase = _database.Pages.Find(id);
+            var pageFromDatabase = await _database.Pages.FindAsync(id);
 
             if (pageFromDatabase == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            return View(pageFromDatabase);
+            return Ok(pageFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult DeletePOST(int? id)
+        public async Task<IActionResult> DeletePOST(int? id)
         {
-            var obj = _database.Pages.Find(id);
+            var obj = await _database.Pages.FindAsync(id);
             if (obj == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             _database.Pages.Remove(obj);
-            _database.SaveChanges();
-            TempData["success"] = "Game deleted successfully.";
-            return RedirectToAction("Index");
-
+            await _database.SaveChangesAsync();
+            TempData["success"] = "Page deleted successfully.";
+            return Ok(obj);
         }
     }
 }

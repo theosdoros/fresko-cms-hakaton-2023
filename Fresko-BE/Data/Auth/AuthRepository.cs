@@ -28,7 +28,7 @@ namespace Fresko_BE.Data.Auth
             }
 
             string response = CreateToken(user);
-            return "Login SUCCESS " + response;
+            return response;
         }
 
         public async Task<string> Register(User user, string password)
@@ -93,7 +93,7 @@ namespace Fresko_BE.Data.Auth
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
-            
+
         }
 
 

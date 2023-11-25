@@ -16,29 +16,32 @@ builder.Services.AddControllersWithViews();
 //     })
 // );
 
-builder.Services.AddSwaggerGen (c =>
+builder.Services.AddSwaggerGen(c =>
   {
-    c.AddServer(new OpenApiServer{
-        Url = "https://localhost:7252"
-    });
-    c.ResolveConflictingActions (apiDescriptions => apiDescriptions.First ());
+      c.AddServer(new OpenApiServer
+      {
+          Url = "https://localhost:7252"
+      });
+      c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
   });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")));
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(builder =>
-    {
-        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost" || new Uri(origin).Host == "myweb.local");
-    });
-});
+builder.Services.AddCors(policyBuilder =>
+    policyBuilder.AddDefaultPolicy(policy =>
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyHeader())
+);
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => {
-        options.TokenValidationParameters = new TokenValidationParameters {
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value!)),
             ValidateIssuer = false,
@@ -48,16 +51,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+// oopsie privacy breach allowed
 app.UseCors(builder =>
     builder
-        .WithOrigins("*")
+        .AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader());
 
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.Migrate(); // bog blagoslovio
+    dbContext?.Database.Migrate(); // bog blagoslovio
 }
 
 // Configure the HTTP request pipeline.

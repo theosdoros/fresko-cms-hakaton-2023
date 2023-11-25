@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fresko_BE.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231125015045_models_auto_increment")]
-    partial class models_auto_increment
+    [Migration("20231125175832_initial-migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,6 +180,31 @@ namespace Fresko_BE.Migrations
                     b.HasKey("id");
 
                     b.ToTable("pages");
+                });
+
+            modelBuilder.Entity("Fresko_BE.Data.TableModels.User", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("page_content", b =>

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fresko_BE.Controllers
 {
+    [Route("[controller]/[action]")]
+    [ApiController]
     public class ComponentController : Controller
     {
         [HttpGet]
@@ -28,6 +30,7 @@ namespace Fresko_BE.Controllers
             }
         }
 
+        [HttpPost]
         public IActionResult RemoveComponent(IComponent component)
         {
             try

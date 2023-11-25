@@ -7,12 +7,8 @@ namespace Fresko_BE.Models
 
         public string Email { get; set;} = string.Empty;
         public byte[] PasswordHash { get; set; }
-<<<<<<< Updated upstream
-        public byte[] PasswordSalt { get; set; }
-=======
         public byte[] PasswordSalt { get; set;}
         public bool Approved { get; set;} = false;
->>>>>>> Stashed changes
 
     }
 

@@ -44,7 +44,7 @@ namespace Fresko_BE.Controllers
             if(!AdminCheck()){
                 return BadRequest();
             }
-            var usersFromDatabase = _database.Users.Where(s => s.Username.Contains(searchString)).ToList();
+            var usersFromDatabase = _database.Users.Where(s => s.username.Contains(searchString)).ToList();
             return Ok(usersFromDatabase);
         }
 
@@ -57,7 +57,7 @@ namespace Fresko_BE.Controllers
             if(user is null){
                 return BadRequest(user);
             }
-            user.Approved = true;
+            user.approved = true;
             _database.Update(user);
             _database.SaveChanges();
             return Ok(user);
@@ -72,7 +72,7 @@ namespace Fresko_BE.Controllers
             if(user is null){
                 return BadRequest(user);
             }
-            user.Is_admin = true;
+            user.is_admin = true;
             _database.Update(user);
             _database.SaveChanges();
             return Ok(user);            

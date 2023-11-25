@@ -10,16 +10,18 @@ namespace Fresko_BE.Data.TableModels
         [Key, Column(Order = 0)]
         public int id { get; set;}
         [Required]
-        public string Username {get; set;}
+        public string username {get; set;}
         [Required]
-        public string Email { get; set;}
+        public string email { get; set;}
         [Required]
-        public byte[] PasswordHash { get; set; }
+        public byte[] password_hash { get; set; }
         [Required]
-        public byte[] PasswordSalt { get; set;}
+        public byte[] password_salt { get; set;}
         [Required]
-        public bool Approved { get; set;}
+        public bool approved { get; set;}
         [Required]
-        public bool Is_admin { get; set;}
+        public bool is_admin { get; set;}
+
+        public List<Page> pages { get; set; }
     }
 }

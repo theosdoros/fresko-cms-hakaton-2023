@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fresko_BE.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231125192351_EmailApprovedToUsers")]
-    partial class EmailApprovedToUsers
+    [Migration("20231125234229_initial-migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -166,6 +166,9 @@ namespace Fresko_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int?>("Userid")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("creation_date")
                         .HasColumnType("datetime2");
 
@@ -179,6 +182,8 @@ namespace Fresko_BE.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("Userid");
+
                     b.ToTable("pages");
                 });
 
@@ -191,22 +196,25 @@ namespace Fresko_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<bool>("Approved")
+                    b.Property<bool>("approved")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PasswordHash")
+                    b.Property<bool>("is_admin")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("password_hash")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<byte[]>("PasswordSalt")
+                    b.Property<byte[]>("password_salt")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -230,6 +238,13 @@ namespace Fresko_BE.Migrations
                     b.ToTable("page_content");
                 });
 
+            modelBuilder.Entity("Fresko_BE.Data.TableModels.Page", b =>
+                {
+                    b.HasOne("Fresko_BE.Data.TableModels.User", null)
+                        .WithMany("pages")
+                        .HasForeignKey("Userid");
+                });
+
             modelBuilder.Entity("page_content", b =>
                 {
                     b.HasOne("Fresko_BE.Data.TableModels.AllComponents", null)
@@ -243,6 +258,11 @@ namespace Fresko_BE.Migrations
                         .HasForeignKey("page_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Fresko_BE.Data.TableModels.User", b =>
+                {
+                    b.Navigation("pages");
                 });
 #pragma warning restore 612, 618
         }

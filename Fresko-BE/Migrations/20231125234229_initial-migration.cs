@@ -82,6 +82,24 @@ namespace Fresko_BE.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    password_hash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    password_salt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    approved = table.Column<bool>(type: "bit", nullable: false),
+                    is_admin = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "pages",
                 columns: table => new
                 {
@@ -89,26 +107,17 @@ namespace Fresko_BE.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     parent_id = table.Column<int>(type: "int", nullable: false),
                     page_name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    creation_date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    creation_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Userid = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_pages", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "users",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_users", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_pages_users_Userid",
+                        column: x => x.Userid,
+                        principalTable: "users",
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -150,6 +159,11 @@ namespace Fresko_BE.Migrations
                 name: "IX_page_content_content_id",
                 table: "page_content",
                 column: "content_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_pages_Userid",
+                table: "pages",
+                column: "Userid");
         }
 
         /// <inheritdoc />
@@ -171,13 +185,13 @@ namespace Fresko_BE.Migrations
                 name: "page_content");
 
             migrationBuilder.DropTable(
-                name: "users");
-
-            migrationBuilder.DropTable(
                 name: "all_components");
 
             migrationBuilder.DropTable(
                 name: "pages");
+
+            migrationBuilder.DropTable(
+                name: "users");
         }
     }
 }

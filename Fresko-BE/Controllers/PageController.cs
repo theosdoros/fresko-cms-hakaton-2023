@@ -12,10 +12,10 @@ namespace Fresko_BE.Controllers
             _database = database;
         }
 
-        public IActionResult Index()
+        public string Index()
         {
-            IEnumerable<Page> objPagesList = _database.Pages;
-            return View(objPagesList);
+            //IEnumerable<Page> objPagesList = _database.Pages;
+            return "ova muda";
         }
 
         //GET

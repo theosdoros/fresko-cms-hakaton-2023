@@ -5,7 +5,8 @@ namespace Fresko_BE.Data.TableModels
 {
     [Table("users")]
     public class User{
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity), Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
         public int id { get; set;}
         [Required]
         public string Username {get; set;}

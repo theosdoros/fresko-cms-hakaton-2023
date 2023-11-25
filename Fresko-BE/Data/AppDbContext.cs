@@ -16,6 +16,8 @@ namespace MSSQLApp.Data
         public DbSet<Page> Pages { get; set; }
         public DbSet<AllComponents> Component { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
 
         public AppDbContext(IConfiguration config)
         {

@@ -1,34 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
+
+
 function App() {
-    const [test, setTest] = useState("");
+  const [test, setTest] = useState("");
 
-    useEffect(() => {
-        // axios.get(`https://localhost:7252/Component`)
-        //     .then(res => {
-        //       setTest(res.data);
-        //     });
+  useEffect(async () => {
+    // axios.get(`https://localhost:7252/Component`)
+    //     .then(res => {
+    //       setTest(res.data);
+    //     });
 
-        async function fetchData() {
-            await axios.post(`https://localhost:7252/PageModel/Create`, {
-                Id: 22,
-                ParentId: 21,
-                PageName: "agas"
-            }
-            ).then(res => {
-                console.log(res);
-                setTest(res.data);
-            });
-        }
-        fetchData();
-    }, [test]);
+    var article = JSON.stringify( {
+      Id: 22,
+      Text: "asdasdasdas"
+  });
+    await axios.post(`https://localhost:7252/Component/AddArticle`, {
+      Id: 22,
+      Text: "asdasdasdas"
+    }).then(res => {
+          console.log(res);
+          setTest(res.data);
+        });
+  }, [test]);
 
-    return (
-        <div className="App">
-            <h1>{test}</h1>
-        </div>
-    );  
+  return (
+    <div className="App">
+      <h1>{test}</h1>
+    </div>
+  );
 }
+
 export default App;

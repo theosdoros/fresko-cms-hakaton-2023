@@ -6,7 +6,7 @@ namespace Fresko_BE.Data.TableModels
     [Table("link_picker")]
     public class LinkPicker
     {
-        [Required, Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity), Key]
         public int id { get; set; }
         [Required, StringLength(255), DataType(DataType.Text)]
         public string url { get; set; }

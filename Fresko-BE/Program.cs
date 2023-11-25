@@ -1,12 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using MSSQLApp.Data;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//builder.Services.AddSwaggerGen();
+// builder.Services.AddSwaggerGen(c =>
+//     c.AddServer(new OpenApiServer{
+//         Url = "http://localhost:5292"
+//     })
+// );
+
+builder.Services.AddSwaggerGen (c =>
+  {
+    c.AddServer(new OpenApiServer{
+        Url = "http://localhost:5292"
+    });
+    c.ResolveConflictingActions (apiDescriptions => apiDescriptions.First ());
+  });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")));
@@ -21,6 +34,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseCors(builder =>
+    builder
+        .WithOrigins("*")
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -34,8 +53,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-//app.UseSwagger();
-//app.UseSwaggerUI();
+app.UseSwagger().UseSwaggerUI();
 app.MapControllers();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -43,10 +61,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-app.UseCors();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller}/{action=Index}/{id?}");
 
 app.Run();

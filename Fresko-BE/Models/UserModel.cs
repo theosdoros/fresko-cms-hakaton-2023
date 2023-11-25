@@ -1,3 +1,5 @@
+using System.Diagnostics.Eventing.Reader;
+
 namespace Fresko_BE.Models
 {
     public class UserModel{
@@ -9,6 +11,8 @@ namespace Fresko_BE.Models
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set;}
         public bool Approved { get; set;} = false;
+
+        public bool Is_admin { get; set;} = false;
 
     }
 

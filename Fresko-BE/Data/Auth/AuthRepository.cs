@@ -12,9 +12,17 @@ namespace Fresko_BE.Data.Auth
         {
             _dbContext = dbContext;
         }
-        public Task<string> Login(string username, string password)
+        public async Task<string> Login(string username, string password)
         {
-            throw new NotImplementedException();
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username.ToLower().Equals(username.ToLower()));
+            if(user is null){
+                return "User not found";
+            }
+            else if(!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)){
+                return "Wrong Password";
+            }
+
+            return "Login SUCCESS";
         }
 
         public async Task<string> Register(User user, string password)
@@ -43,6 +51,13 @@ namespace Fresko_BE.Data.Auth
             using(var hmac = new System.Security.Cryptography.HMACSHA512()){
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt){
+            using(var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt)){
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                return computedHash.SequenceEqual(passwordHash);
             }
         }
     }

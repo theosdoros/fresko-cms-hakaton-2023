@@ -26,5 +26,14 @@ namespace Fresko_BE.Controllers
             return Ok(response);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<string>> Login(UserLoginDto request){
+            var response = await _authRepo.Login(request.Username, request.Password);
+            if(response == "User not found" || response == "Wrong Password" ){
+                return BadRequest(response);
+            }
+            return Ok(response);
+        }        
+
     }
 }

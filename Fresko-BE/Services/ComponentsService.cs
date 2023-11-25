@@ -14,48 +14,18 @@ namespace Fresko_BE.Services
             _db = appDbContext;
         }
 
-        public static void AddComponent(IComponent component)
+        public static ArticleText AddComponent(ArticleTextModel articleText)
         {
-            if (component == null) return;
+            if (articleText.Text.IsNullOrEmpty()) return null;
 
-            if (component is ArticleTextModel)
+            var article = new ArticleText()
             {
-                AddComponent(component as ArticleTextModel);
-            }
-            else if (component is FilePickerModel)
-            {
-                AddComponent(component as FilePickerModel);
-            }
-            else if (component is ImagePickerModel)
-            {
-                AddComponent(component as ImagePickerModel);
-            }
-            else if (component is LinkPickerModel)
-            {
-                AddComponent(component as LinkPickerModel);
-            }
-            else
-            {
-                return;
-            }
+                text = articleText.Text
+            };
+
+            return article;
         }
-        public static void AddComponent(ArticleTextModel articleText)
-        {
-            try
-            {
-                if (articleText.Text.IsNullOrEmpty()) return;
 
-                var article = new ArticleText()
-                {
-                    text = articleText.Text
-                };
-
-                _db.Articles.Add(article);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
         public static void AddComponent(FilePickerModel filePicker)
         {
             try

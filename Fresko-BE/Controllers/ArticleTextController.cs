@@ -1,5 +1,6 @@
 ﻿using Fresko_BE.Data.TableModels;
 using Fresko_BE.Models;
+using Fresko_BE.Services;
 using Microsoft.AspNetCore.Mvc;
 using MSSQLApp.Data;
 
@@ -25,48 +26,46 @@ namespace Fresko_BE.Controllers
 
         //GET
         [HttpGet]
-        public string Create()
+        public IActionResult Create()
         {
-            return "RADI";
+            return View();
         }
 
-        //POST
         [HttpPost]
-        public ArticleText Create([FromBody] ArticleTextModel obj)
+        public async Task<IActionResult> AddArticle([FromBody] ArticleTextModel model)
         {
             try
             {
-                var newObj = new ArticleText()
-                {
-                    text = obj.Text
-                };
+                ArticleText articleText = ComponentsService.AddComponent(model);
 
-                _database.Articles.Add(newObj);
-                _database.SaveChanges();
-                TempData["success"] = "Article text created successfully.";
-                return newObj;
-            } catch (Exception e) {
-                throw;
-            } 
+                await _database.Articles.AddAsync(articleText);
+                await _database.SaveChangesAsync();
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         //GET
         [HttpGet]
-        public async Task<ArticleText> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null || id == 0)
             {
-                return null;
+                return NotFound();
             }
 
-            var articleTextFromDatabase = await _database.Articles.FindAsync(id);
+            var articleTextFromDatabase = _database.Articles.Find(id);
 
             if (articleTextFromDatabase == null)
             {
-                return null;
+                return NotFound();
             }
 
-            return articleTextFromDatabase;
+            return View(articleTextFromDatabase);
         }
 
         //POST

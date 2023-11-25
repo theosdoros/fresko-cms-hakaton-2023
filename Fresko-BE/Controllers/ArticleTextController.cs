@@ -91,37 +91,37 @@ namespace Fresko_BE.Controllers
 
         //GET
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var articleTextFromDatabase = _database.Articles.Find(id);
+            var articleTextFromDatabase = await _database.Articles.FindAsync(id);
 
             if (articleTextFromDatabase == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            return View(articleTextFromDatabase);
+            return Ok(articleTextFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult DeletePOST(int? id)
+        public async Task<IActionResult> DeletePOST(int? id)
         {
-            var obj = _database.Articles.Find(id);
+            var obj = await _database.Articles.FindAsync(id);
             if (obj == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             _database.Articles.Remove(obj);
-            _database.SaveChanges();
+            await _database.SaveChangesAsync();
             TempData["success"] = "Article text deleted successfully.";
-            return RedirectToAction("Index");
+            return Ok(obj);
 
         }
     }

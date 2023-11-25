@@ -1,5 +1,6 @@
 ﻿using Fresko_BE.Data.TableModels;
 using Fresko_BE.Models;
+using Fresko_BE.Services;
 using Microsoft.AspNetCore.Mvc;
 using MSSQLApp.Data;
 
@@ -24,109 +25,102 @@ namespace Fresko_BE.Controllers
 
         //GET
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            return Ok();
         }
 
         //POST
         [HttpPost]
-        public IActionResult Create([FromBody] FilePickerModel obj)
+        public async Task<IActionResult> Create([FromBody] FilePickerModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var newObj = new FilePicker()
-                {
-                    absolute_path = obj.AbsolutePath,
-                    description = obj.Description
-                };
+                FilePicker filePicker = ComponentsService.AddComponent(model);
 
-                _database.Files.Add(newObj);
-                _database.SaveChanges();
-                TempData["success"] = "File picker created successfully.";
-                return RedirectToAction("Index");
+                await _database.Files.AddAsync(filePicker);
+                await _database.SaveChangesAsync();
+
+                return Ok(model);
             }
-
-            return View();
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         //GET
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            var filePickerFromDatabase = _database.Files.Find(id);
+            var filePickerFromDatabase = await _database.Files.FindAsync(id);
 
             if (filePickerFromDatabase == null)
             {
                 return NotFound();
             }
 
-            return View(filePickerFromDatabase);
+            return Ok(filePickerFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult Edit([FromBody] FilePickerModel obj)
+        public async Task<IActionResult> Edit([FromBody] FilePickerModel model)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                var newObj = new FilePicker()
-                {
-                    id = obj.Id,
-                    absolute_path = obj.AbsolutePath,
-                    description = obj.Description
-                };
-
+                FilePicker newObj = ComponentsService.UpdateComponent(model);
 
                 _database.Files.Update(newObj);
-                _database.SaveChanges();
+                await _database.SaveChangesAsync();
                 TempData["success"] = "File picker edited successfully.";
-                return RedirectToAction("Index");
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
             }
 
-            return View();
         }
 
         //GET
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var filePickerFromDatabase = _database.Files.Find(id);
+            var filePickerFromDatabase = await _database.Files.FindAsync(id);
 
             if (filePickerFromDatabase == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            return View(filePickerFromDatabase);
+            return Ok(filePickerFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult DeletePOST(int? id)
+        public async Task<IActionResult> DeletePOST(int? id)
         {
-            var obj = _database.Files.Find(id);
+            var obj = await _database.Files.FindAsync(id);
             if (obj == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             _database.Files.Remove(obj);
-            _database.SaveChanges();
+            await _database.SaveChangesAsync();
             TempData["success"] = "File picker deleted successfully.";
-            return RedirectToAction("Index");
-
+            return Ok(obj);
         }
     }
 }

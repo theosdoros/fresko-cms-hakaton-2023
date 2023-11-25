@@ -66,6 +66,19 @@ namespace Fresko_BE.Services
             return link;
         }
 
+        public static Page AddComponent(PageModel page)
+        {
+            if (page.PageName.IsNullOrEmpty()) return null;
+
+            var newPage = new Page()
+            {
+                parent_id = page.ParentId,
+                page_name = page.PageName       
+            };
+
+            return newPage;
+        }
+
         public static ArticleText UpdateComponent(ArticleTextModel articleText)
         {
             if (articleText.Text.IsNullOrEmpty()) return null;
@@ -84,6 +97,7 @@ namespace Fresko_BE.Services
             if (filePicker.AbsolutePath.IsNullOrEmpty()) return null;
             var file = new FilePicker()
             {
+                id = filePicker.Id,
                 absolute_path = filePicker.AbsolutePath,
                 description = filePicker.Description
             };
@@ -98,6 +112,7 @@ namespace Fresko_BE.Services
 
             var image = new ImagePicker()
             {
+                id = imagePicker.Id,
                 absolute_path = imagePicker.AbsolutePath,
                 description = imagePicker.Description
             };
@@ -111,11 +126,26 @@ namespace Fresko_BE.Services
 
             var link = new LinkPicker()
             {
+                id = linkPicker.Id,
                 url = linkPicker.Url,
                 name_overwrite = linkPicker.NameOverwrite
             };
 
             return link;
+        }
+
+        public static Page UpdateComponent(PageModel page)
+        {
+            if (page.PageName.IsNullOrEmpty()) return null;
+
+            var newPage = new Page()
+            {
+                id = page.Id,
+                parent_id = page.ParentId,
+                page_name = page.PageName
+            };
+
+            return newPage;
         }
 
         public static void RemoveComponent(IComponent component)
@@ -204,6 +234,24 @@ namespace Fresko_BE.Services
                 {
                     url = linkPicker.Url,
                     name_overwrite = linkPicker.NameOverwrite
+                };
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public static void RemoveComponent(PageModel page)
+        {
+            try
+            {
+                if (page.PageName.IsNullOrEmpty()) return;
+
+                var link = new Page()
+                {
+                    page_name = page.PageName,
+                    parent_id = page.ParentId
                 };
             }
             catch (Exception ex)

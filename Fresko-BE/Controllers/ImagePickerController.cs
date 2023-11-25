@@ -1,5 +1,6 @@
 ﻿using Fresko_BE.Data.TableModels;
 using Fresko_BE.Models;
+using Fresko_BE.Services;
 using Microsoft.AspNetCore.Mvc;
 using MSSQLApp.Data;
 
@@ -24,108 +25,102 @@ namespace Fresko_BE.Controllers
 
         //GET
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            return Ok();
         }
 
         //POST
         [HttpPost]
-        public IActionResult Create([FromBody] ImagePickerModel obj)
+        public async Task<IActionResult> Create([FromBody] ImagePickerModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var newObj = new ImagePicker()
-                {
-                    absolute_path = obj.AbsolutePath,
-                    description = obj.Description
-                };
+                ImagePicker imagePicker = ComponentsService.AddComponent(model);
 
-                _database.Images.Add(newObj);
-                _database.SaveChanges();
-                TempData["success"] = "Image created successfully.";
-                return RedirectToAction("Index");
+                await _database.Images.AddAsync(imagePicker);
+                await _database.SaveChangesAsync();
+
+                return Ok(model);
             }
-
-            return View();
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         //GET
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            var imagePickerFromDatabase = _database.Images.Find(id);
+            var imagePickerFromDatabase = await _database.Images.FindAsync(id);
 
             if (imagePickerFromDatabase == null)
             {
                 return NotFound();
             }
 
-            return View(imagePickerFromDatabase);
+            return Ok(imagePickerFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult Edit([FromBody] ImagePickerModel obj)
+        public async Task<IActionResult> Edit([FromBody] ImagePickerModel model)
         {
-
-            if (ModelState.IsValid)
+            try
             {
-                var newObj = new ImagePicker()
-                {
-                    id = obj.Id,
-                    absolute_path = obj.AbsolutePath,
-                    description = obj.Description
-                };
-
+                ImagePicker newObj = ComponentsService.UpdateComponent(model);
 
                 _database.Images.Update(newObj);
-                _database.SaveChanges();
-                TempData["success"] = "Image edited successfully.";
-                return RedirectToAction("Index");
+                await _database.SaveChangesAsync();
+                TempData["success"] = "Image picker edited successfully.";
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
             }
 
-            return View();
         }
 
         //GET
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var imagePickerFromDatabase = _database.Images.Find(id);
+            var imagePickerFromDatabase = await _database.Images.FindAsync(id);
 
             if (imagePickerFromDatabase == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            return View(imagePickerFromDatabase);
+            return Ok(imagePickerFromDatabase);
         }
 
         //POST
         [HttpPost]
-        public IActionResult DeletePOST(int? id)
+        public async Task<IActionResult> DeletePOST(int? id)
         {
-            var obj = _database.Images.Find(id);
+            var obj = await _database.Images.FindAsync(id);
             if (obj == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             _database.Images.Remove(obj);
-            _database.SaveChanges();
-            TempData["success"] = "Image deleted successfully.";
-            return RedirectToAction("Index");
+            await _database.SaveChangesAsync();
+            TempData["success"] = "Image picker deleted successfully.";
+            return Ok(obj);
         }
     }
 }

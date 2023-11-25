@@ -1,4 +1,5 @@
 ﻿using Fresko_BE.Data.TableModels;
+using Fresko_BE.Models;
 using Microsoft.AspNetCore.Mvc;
 using MSSQLApp.Data;
 
@@ -27,11 +28,18 @@ namespace Fresko_BE.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Page obj)
+        public IActionResult Create([FromBody] PageModel obj)
         {
             if (ModelState.IsValid)
             {
-                _database.Pages.Add(obj);
+                var _obj = new Page()
+                {
+                    id = obj.Id,
+                    parent_id = obj.ParentId,
+                    page_name = obj.PageName,
+                };
+
+                _database.Pages.Add(_obj);
                 _database.SaveChanges();
                 TempData["success"] = "Page created successfully.";
                 return RedirectToAction("Index");

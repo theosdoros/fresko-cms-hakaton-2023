@@ -19,7 +19,6 @@ namespace Fresko_BE.Controllers
         [HttpGet]
         public string Index()
         {
-            //IEnumerable<Page> objPagesList = _database.Pages;
             return "RADI";
         }
 
@@ -36,14 +35,14 @@ namespace Fresko_BE.Controllers
         {
             if (ModelState.IsValid)
             {
-                var objekat = new Page()
+                var newObj = new Page()
                 {
                     parent_id = obj.ParentId,
                     page_name = obj.PageName,
                     creation_date = obj.CreationDate
                 };
 
-                _database.Pages.Add(objekat);
+                _database.Pages.Add(newObj);
                 _database.SaveChanges();
                 TempData["success"] = "Page created successfully.";
                 return RedirectToAction("Index");
@@ -73,12 +72,21 @@ namespace Fresko_BE.Controllers
 
         //POST
         [HttpPost]
-        public IActionResult Edit(Page obj)
+        public IActionResult Edit([FromBody] PageModel obj)
         {
 
             if (ModelState.IsValid)
             {
-                _database.Pages.Update(obj);
+                var newObj = new Page()
+                {
+                    id = obj.Id,
+                    parent_id = obj.ParentId,
+                    page_name = obj.PageName,
+                    creation_date = obj.CreationDate
+                };
+
+
+                _database.Pages.Update(newObj);
                 _database.SaveChanges();
                 TempData["success"] = "Page edited successfully.";
                 return RedirectToAction("Index");

@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Fresko_BE.Data.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,16 @@ builder.Services.AddSwaggerGen(c =>
   {
       c.AddServer(new OpenApiServer
       {
-          Url = "https://localhost:7252"
+          Url = "http://localhost:5292"
       });
       c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+      c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme {
+        Description = """Standard Authorization header using the Bearer scheme. Example: "bearer {token}" """,
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+      });
+      c.OperationFilter<SecurityRequirementsOperationFilter>();
   });
 
 builder.Services.AddDbContext<AppDbContext>(options =>

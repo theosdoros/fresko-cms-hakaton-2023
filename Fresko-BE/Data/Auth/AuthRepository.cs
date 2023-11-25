@@ -71,7 +71,9 @@ namespace Fresko_BE.Data.Auth
 
             var claims = new List<Claim>{
                 new Claim(ClaimTypes.NameIdentifier, user.id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.Is_admin.ToString()),
+                new Claim(ClaimTypes.Actor, user.Approved.ToString())
             };
 
             var appToken = _configuration.GetSection("AppSettings:Token").Value;

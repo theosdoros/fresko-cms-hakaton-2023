@@ -81,14 +81,13 @@
     flex-direction: column;
     padding: 0% 15% 0px 15%;
     height: 20%;
-    color: white;
     width: 100%;
 
 }
 
 .regsiter_form p {
 
-    font-size: 0.8rem;
+    font-size: 1.25rem;
     color: black;
 
 }
@@ -114,7 +113,7 @@
 .regsiter_form
 button {
 
-    padding: 8px 40px;
+    padding: 12px 48px;
     background-color: #B8B8FF;
     border: none;
     border-radius: 30px;
@@ -132,13 +131,8 @@ button {
     width: 60%;
     text-align: center;
     border-top: 2px solid #B8B8FF;
-    
-
-}
-.regsiter_container
-.register_login {
-
     padding: 16px 0px 0px 0px;
+    
 
 }
 

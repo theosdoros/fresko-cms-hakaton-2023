@@ -1,7 +1,11 @@
 import axios from "axios";
 import { route } from "./../../vars.js";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
+import Logo from '../../images/RegisterPageLogo.svg';
+
+import "../../LoginStyle.css";
 
 export default function Login({ appendUser, isLoggingOut }) {
   const [username, setUsername] = useState("");
@@ -50,11 +54,14 @@ export default function Login({ appendUser, isLoggingOut }) {
   return (
     <div className="login_container">
       <div className="login_card">
-        <div className="login_image">slicka</div>
+        <div className="login_image"></div>
         <div className="login_right">
           <div className="login_logo">
+            <img src={ Logo } />
+          </div>
             <div className="login_form">
-              <p>Korisnicko ime</p>
+              <div className="login_form_input_username">
+              <p>Корисничко име</p>
               <input
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -62,7 +69,9 @@ export default function Login({ appendUser, isLoggingOut }) {
               {!isUsernameSet && (
                 <p className="input_err">Polje ne može biti prazno!</p>
               )}
-              <p>Lozinka</p>
+              </div>
+              <div className="login_form_input_password">
+              <p>Лозинка</p>
               <input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -70,6 +79,7 @@ export default function Login({ appendUser, isLoggingOut }) {
               {!isPasswordSet && (
                 <p className="input_err">Polje ne može biti prazno!</p>
               )}
+              </div>
               <button
                 onClick={() => {
                   setIsUsernameSet(username.trim().length !== 0);
@@ -79,10 +89,14 @@ export default function Login({ appendUser, isLoggingOut }) {
                   }
                 }}
               >
-                Prijavi me
+                Пријави ме
               </button>
               {!userExists && <p>Kredencijali koje ste uneli ne postoje!</p>}
-            </div>
+          </div>
+          <div className="login_register">
+            <p>
+              Имаш налог? <Link to="/fresko/register">Пријави се!</Link>
+            </p>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import axios from "axios";
 import { route } from "../../vars.js";
 import { useEffect, useState } from "react";
 
-export default function Article({ data, position, updatedData, page }) {
+export default function Article({ data, position, updatedData }) {
   const [text, setText] = useState(data.text);
 
   const setNewData = () => {
@@ -11,9 +11,6 @@ export default function Article({ data, position, updatedData, page }) {
     }
     data = {
       text: text,
-      position: data.position,
-      alias: "article",
-      page: page,
     };
     updatedData(data);
   };

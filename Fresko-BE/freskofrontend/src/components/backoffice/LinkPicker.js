@@ -2,17 +2,14 @@ import axios from "axios";
 import { route } from "../../vars.js";
 import { useEffect, useState } from "react";
 
-export default function LinkPicker({ data, updatedData, page }) {
+export default function LinkPicker({ data, updatedData }) {
   const [url, setUrl] = useState(data.url);
   const [text, setText] = useState(data.name_overwrite);
 
   const setNewData = () => {
     data = {
       url: url,
-      position: data.position,
       name_overwrite: text,
-      alias: "link",
-      page: page,
     };
     updatedData(data);
   };

@@ -46,11 +46,11 @@ namespace MSSQLApp.Data
 
             CreatePasswordHash("admin", out byte[] passwordHash, out byte[] passwordSalt);
 
-            modelBuilder.Entity<User>()
-               .HasMany(e => e.pages)
-               .WithOne(e => e.User)
-               .HasForeignKey(e => e.Id)
-               .IsRequired();
+            //modelBuilder.Entity<User>()
+            //   .HasMany(e => e.pages)
+            //   .WithOne(e => e.User)
+            //   .HasForeignKey(e => e.Id)
+            //   .IsRequired();
 
             //modelBuilder.Entity<Page>()
             //    .HasMany(e => e.Components)

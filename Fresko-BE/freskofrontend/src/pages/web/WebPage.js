@@ -6,7 +6,7 @@ import FilePicker from "../../components/web/FilePicker.js";
 import Article from "../../components/web/Article.js";
 import ImagePicker from "../../components/web/ImagePicker.js";
 import LinkPicker from "../../components/web/LinkPicker.js";
-import Header from "../../components/web/Header.js";
+import WebHeader from "../../components/web/WebHeader.js";
 
 export default function WebPage() {
   const [components, setComponents] = useState([]);
@@ -100,13 +100,9 @@ export default function WebPage() {
     sortComponents();
   }, [components]);
 
-  const renderComponents = () => {
-    if (sortedComponents == null) return;
-  };
-
   return (
     <div className="webpage">
-      <Header />
+      <WebHeader />
       {sortedComponents.map((c) => {
         if (c.alias == "article") {
           return <Article data={c} />;

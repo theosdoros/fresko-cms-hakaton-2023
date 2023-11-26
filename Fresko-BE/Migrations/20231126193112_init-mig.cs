@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Fresko_BE.Migrations
 {
     /// <inheritdoc />
-    public partial class initmigration : Migration
+    public partial class initmig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,8 +50,10 @@ namespace Fresko_BE.Migrations
                 name: "PageModel",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ParentId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     PageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -59,8 +61,8 @@ namespace Fresko_BE.Migrations
                 {
                     table.PrimaryKey("PK_PageModel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PageModel_users_Id",
-                        column: x => x.Id,
+                        name: "FK_PageModel_users_UserId",
+                        column: x => x.UserId,
                         principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -73,6 +75,7 @@ namespace Fresko_BE.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     parent_id = table.Column<int>(type: "int", nullable: false),
+                    user_id = table.Column<int>(type: "int", nullable: false),
                     page_name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     creation_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     userid = table.Column<int>(type: "int", nullable: false)
@@ -233,6 +236,11 @@ namespace Fresko_BE.Migrations
                     { 4, null, "link_picker" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "users",
+                columns: new[] { "id", "approved", "email", "is_admin", "password_hash", "password_salt", "username" },
+                values: new object[] { 1, true, "admin@admin.com", true, new byte[] { 224, 105, 191, 115, 133, 193, 173, 101, 128, 191, 8, 204, 170, 123, 22, 36, 145, 110, 22, 36, 34, 60, 211, 101, 234, 251, 238, 127, 51, 115, 143, 203, 23, 71, 50, 93, 48, 227, 149, 35, 154, 114, 189, 122, 215, 49, 213, 9, 130, 227, 105, 93, 117, 50, 211, 111, 224, 5, 131, 215, 22, 127, 168, 233 }, new byte[] { 235, 12, 152, 197, 184, 141, 68, 170, 66, 105, 78, 124, 64, 54, 68, 165, 182, 187, 115, 68, 15, 21, 144, 115, 181, 167, 120, 102, 167, 70, 46, 115, 88, 31, 238, 104, 210, 171, 246, 187, 116, 190, 150, 58, 12, 152, 79, 77, 16, 218, 50, 126, 62, 206, 172, 152, 120, 162, 42, 18, 232, 71, 220, 96, 46, 102, 132, 147, 208, 94, 235, 75, 86, 57, 17, 183, 171, 135, 107, 28, 108, 133, 99, 151, 157, 99, 51, 104, 227, 158, 241, 164, 78, 12, 21, 62, 80, 57, 17, 14, 86, 6, 47, 99, 1, 61, 209, 19, 16, 106, 69, 186, 7, 234, 155, 105, 112, 72, 46, 35, 139, 162, 251, 56, 147, 73, 71, 254 }, "admin" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_all_components_PageModelId",
                 table: "all_components",
@@ -262,6 +270,11 @@ namespace Fresko_BE.Migrations
                 name: "IX_link_picker_pageid",
                 table: "link_picker",
                 column: "pageid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PageModel_UserId",
+                table: "PageModel",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_pages_userid",

@@ -8,6 +8,7 @@ export default function Dashboard() {
   const [pages, setPages] = useState([]);
   const [sortedPages, setSortedPages] = useState([]);
   const [pageName, setPageName] = useState(null);
+  const [selectedPage, setSelectedPage] = useState(null);
   const [newPageName, setNewPageName] = useState("");
   const [parentIdState, setParentIdState] = useState(0);
 
@@ -51,6 +52,7 @@ export default function Dashboard() {
       .post(route + "/page/create", obj)
       .then((res) => {
         getPages();
+        setNewPageName("");
       })
       .catch((err) => console.log(err));
   };
@@ -59,17 +61,11 @@ export default function Dashboard() {
     getPages();
   }, []);
 
-  useEffect(() => {
-    console.log(pageName);
-  }, [pageName]);
-
   return (
     <div>
       <BeHeader />
       <div>
-        <div
-          style={{ width: "30vw", height: "100vw", backgroundColor: "pink" }}
-        >
+        <div style={{ width: "30vw", height: "30vw", backgroundColor: "pink" }}>
           <button
             onClick={() => {
               setPageName(null);
@@ -85,7 +81,10 @@ export default function Dashboard() {
               return (
                 <div>
                   <button
-                    onClick={() => setPageName(el.page_name)}
+                    onClick={() => {
+                      setPageName(el.page_name);
+                      setSelectedPage(el);
+                    }}
                     style={{ marginLeft: "25px" }}
                   >
                     {el.page_name}
@@ -96,7 +95,12 @@ export default function Dashboard() {
             } else {
               return (
                 <div>
-                  <button onClick={() => setPageName(el.page_name)}>
+                  <button
+                    onClick={() => {
+                      setPageName(el.page_name);
+                      setSelectedPage(el);
+                    }}
+                  >
                     {el.page_name}
                   </button>
                   <button
@@ -130,7 +134,9 @@ export default function Dashboard() {
             </button>
           </div>
         )}
-        <DashboardContent pageName={pageName} />
+        {pageName != null && (
+          <DashboardContent page={selectedPage} pageName={pageName} />
+        )}
       </div>
     </div>
   );

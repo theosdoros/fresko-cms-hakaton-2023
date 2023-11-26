@@ -65,14 +65,14 @@ export default function Register() {
                 onChange={(e) => setUsername(e.target.value)}
               />
               {!isUsernameSet && (
-                <p className="input_err">Polje ne može biti prazno!</p>
+                <p className="input_err">Поље не може бити празно!</p>
               )}
             </div>
             <div className="register_form_input_email">
               <p>E-МАИЛ</p>
               <input value={email} onChange={(e) => setEmail(e.target.value)} />
               {!isEmailSet && (
-                <p className="input_err">Polje ne može biti prazno!</p>
+                <p className="input_err">Поље не може бити празно!</p>
               )}
             </div>
             <div className="register_form_input_password">
@@ -83,18 +83,18 @@ export default function Register() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               {!isPasswordSet && (
-                <p className="input_err">Polje ne može biti prazno!</p>
+                <p className="input_err">Поље не може бити празно!</p>
               )}
             </div>
             <div className="register_form_input_repeat_password">
-              <p>ПОТВРДА ЛОЗИНКА</p>
+              <p>ПОТВРДА ЛОЗИНКЕ</p>
               <input
                 type="password"
                 value={repeatPassword}
-                onChange={(e) => setIsRepeatPasswordSet(e.target.value)}
+                onChange={(e) => setRepeatPassword(e.target.value)}
               />
               {!isRepeatPasswordSet && (
-                <p className="input_err">Polje ne može biti prazno!</p>
+                <p className="input_err">Поље не може бити празно!</p>
               )}
             </div>
             <button
@@ -107,7 +107,8 @@ export default function Register() {
                   isPasswordSet &&
                   isUsernameSet &&
                   isEmailSet &&
-                  isRepeatPasswordSet
+                  isRepeatPasswordSet &&
+                  password == repeatPassword
                 ) {
                   register();
                   setValidation(true);
@@ -116,7 +117,8 @@ export default function Register() {
             >
               РЕГИСРУЈ МЕ
             </button>
-            {!validation && <p>Kredencijali koje ste uneli su neispravni!</p>}
+            {!validation && <p>Креденцијали које сте унели су неисправни!</p>}
+            {password != repeatPassword && <p>Шифре се не покпапају!</p>}
           </div>
           <div className="register_login">
             <p>

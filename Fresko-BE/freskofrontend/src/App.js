@@ -29,6 +29,7 @@ function App() {
       isAdmin: decoded.role == "True",
     };
     localStorage.setItem("currUser", JSON.stringify(user));
+    localStorage.setItem("token", u);
     setCurrUser(JSON.parse(localStorage.getItem("currUser")));
   };
 

@@ -8,7 +8,7 @@ using MSSQLApp.Data;
 
 namespace Fresko_BE.Controllers
 {
-    [Authorize]
+    
     [Route("[controller]/[action]")]
     [ApiController]
     public class AdminController : Controller
@@ -31,9 +31,9 @@ namespace Fresko_BE.Controllers
         [HttpGet]
         public ActionResult<List<User>> Users()
         {
-            if(!AdminCheck()){
+            /*if(!AdminCheck()){
                 return BadRequest();
-            }
+            }*/
             var usersFromDatabase = _database.Users.ToList();
             return usersFromDatabase;
         }

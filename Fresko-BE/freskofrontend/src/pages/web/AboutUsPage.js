@@ -20,7 +20,7 @@ export default function AboutUsPage() {
                 <div className='homepage-landingpage-container'>
                     <WebHeader />
                     <div className='homepage-hero-content-container'>
-                        <div class="tinted">
+                        <div class="bg-solid">
                             <p>
                                 <h2>Сајт "Фреско" је направлјен током хакатона <a href="https://иманаћирилици.срб">"Има на ћирилици"</a> у организацији компаније <a href="https://www.quantox.com">"Квантокс Технолоџи"</a> и РНИДС-а.</h2><br /><br />
                                 <h3>На сајту су радили студенти Природно-математичког факултета у Нишу:</h3><br />

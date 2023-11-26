@@ -226,9 +226,9 @@ a {
   height: 100%;
 }
 
-.tinted {
+.bg-solid {
     border-radius: 25px;
-    background-color: rgba(129,254,188,0.5);
+    background-color: #9999FF;
     padding: 20px;
 }
 

@@ -9,6 +9,7 @@ import LinkPicker from "../../components/web/LinkPicker.js";
 import WebHeader from "../../components/web/WebHeader.js";
 
 import "..//..//WebPageStyle.css";
+import WebNav from "../../components/web/WebNav.js";
 
 export default function WebPage() {
   const [components, setComponents] = useState([]);
@@ -104,26 +105,35 @@ export default function WebPage() {
 
   return (
     <div className="webpage_hero_container">
-      <WebHeader />
+      <WebNav />
       <div className="webpage_main_content_container">
-      {sortedComponents.map((c) => {
-        if (c.alias == "article") {
-          return (<div className="webpage_main_content_article"><Article data={c}/></div>);
-        }
-        if (c.alias == "image") {
-          return (<div className="webpage_main_content_image"><ImagePicker data={c} /></div>);
-        }
-        if (c.alias == "file") {
-          return <FilePicker data={c} />;
-        }
-        if (c.alias == "link") {
-          return (
-            <div className="webpage_main_content_links">
-            <h1>Линкови</h1>
-            <LinkPicker data={c} />
-            </div>);
-        }
-      })}
+        {sortedComponents.map((c) => {
+          if (c.alias == "article") {
+            return (
+              <div className="webpage_main_content_article">
+                <Article data={c} />
+              </div>
+            );
+          }
+          if (c.alias == "image") {
+            return (
+              <div className="webpage_main_content_image">
+                <ImagePicker data={c} />
+              </div>
+            );
+          }
+          if (c.alias == "file") {
+            return <FilePicker data={c} />;
+          }
+          if (c.alias == "link") {
+            return (
+              <div className="webpage_main_content_links">
+                <h1>Линкови</h1>
+                <LinkPicker data={c} />
+              </div>
+            );
+          }
+        })}
       </div>
     </div>
   );

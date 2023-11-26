@@ -16,7 +16,7 @@ export default function WebHeader() {
         <>
             <div className='homepage-navigation-container'>
                 <div className='navigation-image-container'>
-                    <img src={ Logo } height="100px"/>
+                    <Link to="/"><img src={Logo} height="100px" /></Link>
                 </div>
                 <nav>
                     <ul>

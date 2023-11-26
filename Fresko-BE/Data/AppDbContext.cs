@@ -17,6 +17,7 @@ namespace MSSQLApp.Data
         public DbSet<Page> Pages { get; set; }
         public DbSet<AllComponents> Component { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<PageContent> PageContent { get; set; }
 
 
         public AppDbContext(IConfiguration config)
@@ -41,14 +42,14 @@ namespace MSSQLApp.Data
                .HasForeignKey(e => e.Id)
                .IsRequired();
 
-            modelBuilder.Entity<Page>()
-                .HasMany(e => e.Components)
-                .WithMany(e => e.Pages)
-                .UsingEntity(
-                    "page_content",
-                    l => l.HasOne(typeof(AllComponents)).WithMany().HasForeignKey("content_id").HasPrincipalKey(nameof(AllComponents.id)),
-                    r => r.HasOne(typeof(Page)).WithMany().HasForeignKey("page_id").HasPrincipalKey(nameof(Page.id)),
-                    j => j.HasKey("page_id", "content_id"));
+            //modelBuilder.Entity<Page>()
+            //    .HasMany(e => e.Components)
+            //    .WithMany(e => e.Pages)
+            //    .UsingEntity(
+            //        "page_content",
+            //        l => l.HasOne(typeof(AllComponents)).WithMany().HasForeignKey("content_id").HasPrincipalKey(nameof(AllComponents.id)),
+            //        r => r.HasOne(typeof(Page)).WithMany().HasForeignKey("page_id").HasPrincipalKey(nameof(Page.id)),
+            //        j => j.HasKey("page_id", "content_id"));
 
             modelBuilder.Entity<AllComponents>().HasData(new AllComponents { id = 1, name = "article_text" });
             modelBuilder.Entity<AllComponents>().HasData(new AllComponents { id = 2, name = "file_picker" });

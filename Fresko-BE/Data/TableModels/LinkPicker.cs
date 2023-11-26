@@ -13,7 +13,12 @@ namespace Fresko_BE.Data.TableModels
         public string url { get; set; }
         [Required, StringLength(64), DataType(DataType.Text)]
         public string name_overwrite { get; set; }
+        [Required]
+        public int position { get; set; }
+        [Required]
+        public DateTime cretion_date { get; set; }
 
+        public Page page { get; set; }
 
 
         private AllComponents content_type = new AllComponents();

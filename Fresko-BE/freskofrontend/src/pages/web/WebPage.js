@@ -8,12 +8,15 @@ export default function WebPage() {
   let params = useParams();
 
   const getComponents = async () => {
-    await axios.get(route + "/");
+    await axios
+      .get(route + "/" + params.pagename)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    console.log("pageid: ", params.pagename);
-  }, [params.pagename]);
+    getComponents();
+  }, []);
 
-  return <></>;
+  return <h1>{params.pagename}</h1>;
 }

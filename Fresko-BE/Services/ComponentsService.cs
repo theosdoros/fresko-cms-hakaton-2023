@@ -1,7 +1,6 @@
 ﻿using Fresko_BE.Data.TableModels;
 using Fresko_BE.Models;
 using Fresko_BE.Models.Interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
 using MSSQLApp.Data;
 
@@ -21,7 +20,9 @@ namespace Fresko_BE.Services
 
             var article = new ArticleText()
             {
-                text = articleText.Text
+                text = articleText.Text,
+                position = articleText.Position,
+                cretion_date = DateTime.Today
             };
 
             return article;
@@ -35,7 +36,9 @@ namespace Fresko_BE.Services
             var file = new FilePicker()
             {
                 absolute_path = filePicker.AbsolutePath,
-                description = filePicker.Description
+                description = filePicker.Description,
+                position = filePicker.Position,
+                cretion_date = DateTime.Today
             };
 
             return file;
@@ -48,7 +51,9 @@ namespace Fresko_BE.Services
             var image = new ImagePicker()
             {
                 absolute_path = imagePicker.AbsolutePath,
-                description = imagePicker.Description
+                description = imagePicker.Description,
+                position = imagePicker.Position,
+                cretion_date = DateTime.Today
             };
 
             return image;
@@ -60,7 +65,9 @@ namespace Fresko_BE.Services
             var link = new LinkPicker()
             {
                 url = linkPicker.Url,
-                name_overwrite = linkPicker.NameOverwrite
+                name_overwrite = linkPicker.NameOverwrite,
+                position = linkPicker.Position,
+                cretion_date = DateTime.Today
             };
 
             return link;
@@ -86,7 +93,8 @@ namespace Fresko_BE.Services
             var article = new ArticleText()
             {
                 id = articleText.Id,
-                text = articleText.Text
+                text = articleText.Text,
+                position = articleText.Position,
             };
 
             return article;
@@ -99,7 +107,8 @@ namespace Fresko_BE.Services
             {
                 id = filePicker.Id,
                 absolute_path = filePicker.AbsolutePath,
-                description = filePicker.Description
+                description = filePicker.Description,
+                position = filePicker.Position,
             };
 
             return file;
@@ -114,7 +123,8 @@ namespace Fresko_BE.Services
             {
                 id = imagePicker.Id,
                 absolute_path = imagePicker.AbsolutePath,
-                description = imagePicker.Description
+                description = imagePicker.Description,
+                position = imagePicker.Position,
             };
 
             return image;
@@ -128,7 +138,8 @@ namespace Fresko_BE.Services
             {
                 id = linkPicker.Id,
                 url = linkPicker.Url,
-                name_overwrite = linkPicker.NameOverwrite
+                name_overwrite = linkPicker.NameOverwrite,
+                position = linkPicker.Position,
             };
 
             return link;
@@ -145,33 +156,6 @@ namespace Fresko_BE.Services
                 page_name = page.PageName
             };
 
-            return newPage;
-        }
-
-        public static void RemoveComponent(IComponent component)
-        {
-            if (component == null) return;
-
-            if (component is ArticleTextModel)
-            {
-                RemoveComponent(component as ArticleTextModel);
-            }
-            else if (component is FilePickerModel)
-            {
-                RemoveComponent(component as FilePickerModel);
-            }
-            else if (component is ImagePickerModel)
-            {
-                RemoveComponent(component as ImagePickerModel);
-            }
-            else if (component is LinkPickerModel)
-            {
-                RemoveComponent(component as LinkPickerModel);
-            }
-            else
-            {
-                return;
-            }
         }
 
         public static void RemoveComponent(ArticleTextModel articleText)

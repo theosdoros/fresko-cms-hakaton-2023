@@ -11,6 +11,12 @@ namespace Fresko_BE.Data.TableModels
         public int id { get; set; }
         [Required, StringLength(250), DataType(DataType.Html)]
         public string text { get; set; }
+        [Required]
+        public int position { get; set; }
+        [Required]
+        public DateTime cretion_date { get; set; }
+
+        public Page page { get; set; }
 
         private AllComponents content_type = new AllComponents();
     }

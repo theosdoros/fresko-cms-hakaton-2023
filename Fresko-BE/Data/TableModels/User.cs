@@ -11,9 +11,9 @@ namespace Fresko_BE.Data.TableModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key, Column(Order = 0)]
         public int id { get; set;}
-        [Required]
+        [Required] [StringLength(100, MinimumLength = 3)]
         public string username {get; set;}
-        [Required]
+        [Required] [EmailAddress]
         public string email { get; set;}
         [Required]
         public byte[] password_hash { get; set; }

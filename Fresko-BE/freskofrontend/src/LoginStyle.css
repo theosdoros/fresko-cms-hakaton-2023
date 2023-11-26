@@ -86,7 +86,7 @@
 .login_form_input_username p ,
 .login_form_input_password p {
 
-    font-size: 1.563rem;
+    font-size: 20px;
     color: black;
 
 }
@@ -99,7 +99,7 @@
     background-color: #F8F7FF;
     border-radius: 10px;
     width: 100%;
-    font-size: 3.052rem;
+    font-size: 31.5px;
 }
 
 .login_container
@@ -113,8 +113,8 @@ button {
     border: none;
     border-radius: 30px;
     color: #F8F7FF;
-    font-size: 1.953rem;
-    margin: 48px 0px 0px 0px;
+    font-size: 25px;
+    margin: 40px 0px 0px 0px;
 }
 
 .login_register {
@@ -130,6 +130,6 @@ button {
 
 .login_register p {
 
-    font-size: 1.953rem;
+    font-size: 20px;
 
 }

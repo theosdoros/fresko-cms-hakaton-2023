@@ -99,7 +99,7 @@ export default function Register() {
                 onClick={() => {
                   setIsUsernameSet(username.trim().length !== 0);
                   setIsPasswordSet(password.trim().length !== 0);
-                  setIsRepeatPasswordSet(password.trim().length !== 0);
+                  //setIsRepeatPasswordSet(password.trim().length !== 0);
                   setIsEmailSet(email.trim().length !== 0);
                   if (isPasswordSet && isUsernameSet && isEmailSet && isRepeatPasswordSet) {
                     register();

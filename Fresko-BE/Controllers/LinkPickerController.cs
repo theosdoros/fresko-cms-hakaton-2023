@@ -26,17 +26,6 @@ namespace Fresko_BE.Controllers
             return "RADI";
         }
 
-        //GET
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            if(!ApprovedCheck()){
-                return BadRequest();
-            }
-            return Ok();
-        }
-
-        //POST
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] LinkPickerModel model)
         {
@@ -58,29 +47,6 @@ namespace Fresko_BE.Controllers
             }
         }
 
-        //GET
-        [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if(!ApprovedCheck()){
-                return BadRequest();
-            }
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            var linkPickerFromDatabase = await _database.Links.FindAsync(id);
-
-            if (linkPickerFromDatabase == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(linkPickerFromDatabase);
-        }
-
-        //POST
         [HttpPost]
         public async Task<IActionResult> Edit([FromBody] LinkPickerModel model)
         {
@@ -103,29 +69,6 @@ namespace Fresko_BE.Controllers
 
         }
 
-        //GET
-        [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if(!ApprovedCheck()){
-                return BadRequest();
-            }
-            if (id == null || id == 0)
-            {
-                return BadRequest();
-            }
-
-            var linkPickerFromDatabase = await _database.Links.FindAsync(id);
-
-            if (linkPickerFromDatabase == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(linkPickerFromDatabase);
-        }
-
-        //POST
         [HttpPost]
         public async Task<IActionResult> DeletePOST(int? id)
         {

@@ -26,17 +26,6 @@ namespace Fresko_BE.Controllers
             return "RADI";
         }
 
-        //GET
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            if(!ApprovedCheck()){
-                return BadRequest();
-            }
-            return Ok();
-        }
-
-        //POST
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] FilePickerModel model)
         {
@@ -58,29 +47,6 @@ namespace Fresko_BE.Controllers
             }
         }
 
-        //GET
-        [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if(!ApprovedCheck()){
-                return BadRequest();
-            }
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            var filePickerFromDatabase = await _database.Files.FindAsync(id);
-
-            if (filePickerFromDatabase == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(filePickerFromDatabase);
-        }
-
-        //POST
         [HttpPost]
         public async Task<IActionResult> Edit([FromBody] FilePickerModel model)
         {
@@ -101,28 +67,6 @@ namespace Fresko_BE.Controllers
                 return BadRequest();
             }
 
-        }
-
-        //GET
-        [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if(!ApprovedCheck()){
-                return BadRequest();
-            }
-            if (id == null || id == 0)
-            {
-                return BadRequest();
-            }
-
-            var filePickerFromDatabase = await _database.Files.FindAsync(id);
-
-            if (filePickerFromDatabase == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(filePickerFromDatabase);
         }
 
         //POST

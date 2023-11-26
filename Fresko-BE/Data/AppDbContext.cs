@@ -33,14 +33,24 @@ namespace MSSQLApp.Data
             optionsBuilder.UseSqlServer(_config.GetConnectionString("DatabaseConnection"));
         }
 
+        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt){
+            using(var hmac = new System.Security.Cryptography.HMACSHA512()){
+            passwordSalt = hmac.Key;
+            passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
         //creates many to many table with all pages and contents
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<User>()
-            //   .HasMany(e => e.pages)
-            //   .WithOne(e => e.User)
-            //   .HasForeignKey(e => e.Id)
-            //   .IsRequired();
+
+            CreatePasswordHash("admin", out byte[] passwordHash, out byte[] passwordSalt);
+
+            modelBuilder.Entity<User>()
+               .HasMany(e => e.pages)
+               .WithOne(e => e.User)
+               .HasForeignKey(e => e.Id)
+               .IsRequired();
 
             //modelBuilder.Entity<Page>()
             //    .HasMany(e => e.Components)
@@ -55,6 +65,15 @@ namespace MSSQLApp.Data
             modelBuilder.Entity<AllComponents>().HasData(new AllComponents { id = 2, name = "file_picker" });
             modelBuilder.Entity<AllComponents>().HasData(new AllComponents { id = 3, name = "image_picker" });
             modelBuilder.Entity<AllComponents>().HasData(new AllComponents { id = 4, name = "link_picker" });
+            modelBuilder.Entity<User>().HasData(new User{
+                id = 1,
+                username = "admin",
+                email = "admin@admin.com",
+                password_hash = passwordHash,
+                password_salt = passwordSalt,
+                approved = true,
+                is_admin = true,
+            });
         }
 
 

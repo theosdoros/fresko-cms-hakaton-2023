@@ -12,7 +12,7 @@ import LandingPage from "./pages/web/LandingPage.js";
 import Media from "./pages/backoffice/Media.js";
 import AdminPanel from "./pages/backoffice/AdminPanel.js";
 import Dashboard from "./pages/backoffice/Dashboard.js";
-import AboutUsPage from "./pages/web/AboutUsPage";
+import AboutUsPage from "./pages/web/AboutUsPage.js";
 
 function App() {
   const [currUser, setCurrUser] = useState(

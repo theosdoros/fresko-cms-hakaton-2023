@@ -73,6 +73,7 @@ export default function Login({ appendUser, isLoggingOut }) {
               <div className="login_form_input_password">
               <p>Лозинка</p>
               <input
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

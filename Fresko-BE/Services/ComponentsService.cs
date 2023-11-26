@@ -156,6 +156,7 @@ namespace Fresko_BE.Services
                 page_name = page.PageName
             };
 
+            return newPage;
         }
 
         public static void RemoveComponent(ArticleTextModel articleText)

@@ -32,7 +32,7 @@ namespace Fresko_BE.Controllers
         public ActionResult<List<User>> Users()
         {
             if(!AdminCheck()){
-                return BadRequest(null);
+                return BadRequest();
             }
             var usersFromDatabase = _database.Users.ToList();
             return usersFromDatabase;
@@ -42,22 +42,22 @@ namespace Fresko_BE.Controllers
         public ActionResult<List<User>> UsersSearch(string searchString)
         {
             if(!AdminCheck()){
-                return BadRequest(null);
+                return BadRequest();
             }
-            var usersFromDatabase = _database.Users.Where(s => s.Username.Contains(searchString)).ToList();
+            var usersFromDatabase = _database.Users.Where(s => s.username.Contains(searchString)).ToList();
             return Ok(usersFromDatabase);
         }
 
         [HttpPost]
         public ActionResult<User> ApproveUser(int id){
             if(!AdminCheck()){
-                return BadRequest(null);
+                return BadRequest();
             }
             var user = _database.Users.FirstOrDefault(u => u.id == id);
             if(user is null){
                 return BadRequest(user);
             }
-            user.Approved = true;
+            user.approved = true;
             _database.Update(user);
             _database.SaveChanges();
             return Ok(user);
@@ -66,13 +66,13 @@ namespace Fresko_BE.Controllers
         [HttpPost]
         public ActionResult<User> AddAdmin(int id){
             if(!AdminCheck()){
-                return BadRequest(null);
+                return BadRequest();
             }
             var user = _database.Users.FirstOrDefault(u => u.id == id);
             if(user is null){
                 return BadRequest(user);
             }
-            user.Is_admin = true;
+            user.is_admin = true;
             _database.Update(user);
             _database.SaveChanges();
             return Ok(user);            
@@ -81,7 +81,7 @@ namespace Fresko_BE.Controllers
         [HttpPost]
         public ActionResult<User> DeleteUser(int id){
             if(!AdminCheck()){
-                return BadRequest(null);
+                return BadRequest();
             }
             var user = _database.Users.FirstOrDefault(u => u.id == id);
             if(user is null){

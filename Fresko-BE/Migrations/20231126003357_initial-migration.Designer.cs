@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fresko_BE.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231125192351_EmailApprovedToUsers")]
-    partial class EmailApprovedToUsers
+    [Migration("20231126003357_initial-migration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,12 +34,17 @@ namespace Fresko_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int?>("PageModelId")
+                        .HasColumnType("int");
+
                     b.Property<string>("name")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("PageModelId");
 
                     b.ToTable("all_components");
 
@@ -177,7 +182,12 @@ namespace Fresko_BE.Migrations
                     b.Property<int>("parent_id")
                         .HasColumnType("int");
 
+                    b.Property<int>("userid")
+                        .HasColumnType("int");
+
                     b.HasKey("id");
+
+                    b.HasIndex("userid");
 
                     b.ToTable("pages");
                 });
@@ -191,28 +201,51 @@ namespace Fresko_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<bool>("Approved")
+                    b.Property<bool>("approved")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PasswordHash")
+                    b.Property<bool>("is_admin")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("password_hash")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<byte[]>("PasswordSalt")
+                    b.Property<byte[]>("password_salt")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("id");
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("Fresko_BE.Models.PageModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ParentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PageModel");
                 });
 
             modelBuilder.Entity("page_content", b =>
@@ -230,6 +263,35 @@ namespace Fresko_BE.Migrations
                     b.ToTable("page_content");
                 });
 
+            modelBuilder.Entity("Fresko_BE.Data.TableModels.AllComponents", b =>
+                {
+                    b.HasOne("Fresko_BE.Models.PageModel", null)
+                        .WithMany("Content")
+                        .HasForeignKey("PageModelId");
+                });
+
+            modelBuilder.Entity("Fresko_BE.Data.TableModels.Page", b =>
+                {
+                    b.HasOne("Fresko_BE.Data.TableModels.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Fresko_BE.Models.PageModel", b =>
+                {
+                    b.HasOne("Fresko_BE.Data.TableModels.User", "User")
+                        .WithMany("pages")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("page_content", b =>
                 {
                     b.HasOne("Fresko_BE.Data.TableModels.AllComponents", null)
@@ -243,6 +305,16 @@ namespace Fresko_BE.Migrations
                         .HasForeignKey("page_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Fresko_BE.Data.TableModels.User", b =>
+                {
+                    b.Navigation("pages");
+                });
+
+            modelBuilder.Entity("Fresko_BE.Models.PageModel", b =>
+                {
+                    b.Navigation("Content");
                 });
 #pragma warning restore 612, 618
         }

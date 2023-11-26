@@ -1,6 +1,7 @@
 ﻿using Fresko_BE.Data;
 using Fresko_BE.Data.TableModels;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Reflection.Metadata;
 
 namespace MSSQLApp.Data
@@ -34,6 +35,12 @@ namespace MSSQLApp.Data
         //creates many to many table with all pages and contents
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+               .HasMany(e => e.pages)
+               .WithOne(e => e.User)
+               .HasForeignKey(e => e.Id)
+               .IsRequired();
+
             modelBuilder.Entity<Page>()
                 .HasMany(e => e.Components)
                 .WithMany(e => e.Pages)

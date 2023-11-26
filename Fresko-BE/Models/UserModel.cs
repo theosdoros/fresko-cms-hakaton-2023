@@ -1,3 +1,4 @@
+using Fresko_BE.Data.TableModels;
 using System.Diagnostics.Eventing.Reader;
 
 namespace Fresko_BE.Models
@@ -13,6 +14,8 @@ namespace Fresko_BE.Models
         public bool Approved { get; set;} = false;
 
         public bool Is_admin { get; set;} = false;
+
+        public List<PageModel> Pages { get; set; } = new List<PageModel>();
 
     }
 

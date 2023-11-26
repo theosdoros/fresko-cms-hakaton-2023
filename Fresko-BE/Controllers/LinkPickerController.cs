@@ -1,11 +1,14 @@
-﻿using Fresko_BE.Data.TableModels;
+﻿using System.Security.Claims;
+using Fresko_BE.Data.TableModels;
 using Fresko_BE.Models;
 using Fresko_BE.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MSSQLApp.Data;
 
 namespace Fresko_BE.Controllers
 {
+    [Authorize]
     [Route("[controller]/[action]")]
     [ApiController]
     public class LinkPickerController : Controller
@@ -27,6 +30,9 @@ namespace Fresko_BE.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            if(!ApprovedCheck()){
+                return BadRequest();
+            }
             return Ok();
         }
 
@@ -34,6 +40,9 @@ namespace Fresko_BE.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] LinkPickerModel model)
         {
+            if(!ApprovedCheck()){
+                return BadRequest();
+            }
             try
             {
                 LinkPicker linkPicker = ComponentsService.AddComponent(model);
@@ -53,6 +62,9 @@ namespace Fresko_BE.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
+            if(!ApprovedCheck()){
+                return BadRequest();
+            }
             if (id == null || id == 0)
             {
                 return NotFound();
@@ -72,6 +84,9 @@ namespace Fresko_BE.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit([FromBody] LinkPickerModel model)
         {
+            if(!ApprovedCheck()){
+                return BadRequest();
+            }
             try
             {
                 LinkPicker newObj = ComponentsService.UpdateComponent(model);
@@ -92,6 +107,9 @@ namespace Fresko_BE.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
+            if(!ApprovedCheck()){
+                return BadRequest();
+            }
             if (id == null || id == 0)
             {
                 return BadRequest();
@@ -111,6 +129,9 @@ namespace Fresko_BE.Controllers
         [HttpPost]
         public async Task<IActionResult> DeletePOST(int? id)
         {
+            if(!ApprovedCheck()){
+                return BadRequest();
+            }
             var obj = await _database.Links.FindAsync(id);
             if (obj == null)
             {
@@ -121,6 +142,10 @@ namespace Fresko_BE.Controllers
             await _database.SaveChangesAsync();
             TempData["success"] = "Link picker deleted successfully.";
             return Ok(obj);
+        }
+        private bool ApprovedCheck(){
+            string isApproved = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Actor)!.Value;
+            return isApproved == "True";
         }
     }
 }

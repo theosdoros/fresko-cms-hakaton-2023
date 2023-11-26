@@ -19,11 +19,11 @@ namespace Fresko_BE.Data.Auth
         }
         public async Task<string> Login(string username, string password)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username.ToLower().Equals(username.ToLower()));
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.username.ToLower().Equals(username.ToLower()));
             if(user is null){
                 return "User not found";
             }
-            else if(!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)){
+            else if(!VerifyPasswordHash(password, user.password_hash, user.password_salt)){
                 return "Wrong Password";
             }
 
@@ -33,12 +33,12 @@ namespace Fresko_BE.Data.Auth
 
         public async Task<string> Register(User user, string password)
         {
-            if(await UserExists(user.Username)){
+            if(await UserExists(user.username)){
                 return "Failed";
             }
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            user.password_hash = passwordHash;
+            user.password_salt = passwordSalt;
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
             return "Success";
@@ -47,7 +47,7 @@ namespace Fresko_BE.Data.Auth
 
         public async Task<bool> UserExists(string username)
         {
-            if(await _dbContext.Users.AnyAsync(u => u.Username.ToLower() == username.ToLower())){
+            if(await _dbContext.Users.AnyAsync(u => u.username.ToLower() == username.ToLower())){
                 return true;
             }
             return false;
@@ -71,9 +71,9 @@ namespace Fresko_BE.Data.Auth
 
             var claims = new List<Claim>{
                 new Claim(ClaimTypes.NameIdentifier, user.id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Is_admin.ToString()),
-                new Claim(ClaimTypes.Actor, user.Approved.ToString())
+                new Claim(ClaimTypes.Name, user.username),
+                new Claim(ClaimTypes.Role, user.is_admin.ToString()),
+                new Claim(ClaimTypes.Actor, user.approved.ToString())
             };
 
             var appToken = _configuration.GetSection("AppSettings:Token").Value;

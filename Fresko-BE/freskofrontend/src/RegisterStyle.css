@@ -114,13 +114,13 @@
 .regsiter_form
 button {
 
-    padding: 10px 40px;
+    padding: 8px 40px;
     background-color: #B8B8FF;
     border: none;
     border-radius: 30px;
     color: #F8F7FF;
     font-size: 1.075rem;
-    margin: 4px 0px 0px 0px;
+    margin: 8px 0px 0px 0px;
 }
 .regsiter_container
 .register_login {

@@ -64,6 +64,7 @@ export default function Login({ appendUser, isLoggingOut }) {
               )}
               <p>Lozinka</p>
               <input
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

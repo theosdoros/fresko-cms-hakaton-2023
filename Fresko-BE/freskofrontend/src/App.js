@@ -12,6 +12,7 @@ import LandingPage from "./pages/web/LandingPage.js";
 import Media from "./pages/backoffice/Media.js";
 import AdminPanel from "./pages/backoffice/AdminPanel.js";
 import Dashboard from "./pages/backoffice/Dashboard.js";
+import BeHeader from "./components/backoffice/BeHeader.js";
 
 function App() {
   const [currUser, setCurrUser] = useState(
@@ -37,8 +38,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <>
-        <Route path="/"
-        element={<LandingPage/>} />
+          <Route path="/" element={<LandingPage />} />
         </>
         {currUser == null && (
           <>
@@ -60,7 +60,9 @@ function App() {
               element={<Dashboard user={currUser} />}
             />
             <Route path="/fresko/media" element={<Media />} />
-            <Route path="/fresko/admin-panel" element={<AdminPanel />} />
+            {currUser.isAdmin && (
+              <Route path="/fresko/admin-panel" element={<AdminPanel />} />
+            )}
           </>
         )}
         {currUser != null && !currUser.approved && (

@@ -21,38 +21,29 @@ namespace Fresko_BE.Controllers
         }
 
         [HttpGet]
-        public string Index()
+        public async Task<ActionResult<List<PageModel>>> Index()
         {
-            return "RADI";
+            var pages = _database.Pages.ToList();
+            return Ok(pages);
         }
 
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            if (!ApprovedCheck())
-            {
-                return BadRequest();
-            }
-            return Ok();
-        }
 
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] PageModel model)
+        public async Task<ActionResult<PageModel>> Create([FromBody] PageViewRequest pageView)
         {
-            if (!ApprovedCheck())
-            {
-                return BadRequest();
-            }
+        //    if (!ApprovedCheck())
+        //    {
+        //        return BadRequest();
+        //    }
             try
             {
-                Page page = ComponentsService.AddComponent(model);
+                Page page = PageService.AddPage(pageView);
+                page.user = await _database.Users.FindAsync(pageView.UserId);
 
                 await _database.Pages.AddAsync(page);
                 await _database.SaveChangesAsync();
 
-                return Ok(model);
+                return Ok(page);
             }
             catch (Exception ex)
             {
@@ -62,7 +53,7 @@ namespace Fresko_BE.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> GetPage(int? id)
         {
             if (!ApprovedCheck())
             {
@@ -108,31 +99,8 @@ namespace Fresko_BE.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (!ApprovedCheck())
-            {
-                return BadRequest();
-            }
-            if (id == null || id == 0)
-            {
-                return BadRequest();
-            }
-
-            var pageFromDatabase = await _database.Pages.FindAsync(id);
-
-            if (pageFromDatabase == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(pageFromDatabase);
-        }
-
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> DeletePOST(int? id)
+        public async Task<IActionResult> DeletePage(int? id)
         {
             if (!ApprovedCheck())
             {

@@ -36,11 +36,11 @@ namespace MSSQLApp.Data
         //creates many to many table with all pages and contents
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-               .HasMany(e => e.pages)
-               .WithOne(e => e.User)
-               .HasForeignKey(e => e.Id)
-               .IsRequired();
+            //modelBuilder.Entity<User>()
+            //   .HasMany(e => e.pages)
+            //   .WithOne(e => e.User)
+            //   .HasForeignKey(e => e.Id)
+            //   .IsRequired();
 
             //modelBuilder.Entity<Page>()
             //    .HasMany(e => e.Components)

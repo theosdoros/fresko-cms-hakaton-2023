@@ -178,6 +178,46 @@ namespace Fresko_BE.Controllers
 
             return Ok(webPageView);
         }
+
+        [HttpPost]
+        [Route("/{pagePublish}")]
+        public async Task<IActionResult> PublishPage([FromBody] int pageId, [FromBody] WebPageView pageContent)
+        {
+            //pageName = HttpContext.Request.Query["name"];
+            Page page = _database.Pages.Where(p => p.id == pageId).ToList().FirstOrDefault();
+
+            if (page == null)
+            {
+                return BadRequest();
+            }
+
+            List<ArticleText> articles = pageContent.Articles;
+            List<ImagePicker> images = pageContent.Images;
+            List<FilePicker> files = pageContent.Files;
+            List<LinkPicker> links = pageContent.Links;
+
+            PageContent webPageView = new PageContent()
+            {
+                page_id = page.id,
+                Articles = articles,
+                Images = images,
+                Links = links,
+                Files = files
+            };
+
+            if (await _database.PageContent.FindAsync(webPageView.page_id) == null)
+            {
+                await _database.PageContent.AddAsync(webPageView);
+                await _database.SaveChangesAsync();
+            } 
+            else
+            {
+                _database.PageContent.Update(webPageView);
+                await _database.SaveChangesAsync();
+            }
+
+            return Ok(webPageView);
+        }
         private bool ApprovedCheck()
         {
             string isApproved = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Actor)!.Value;

@@ -15,8 +15,10 @@ namespace Fresko_BE.Data.TableModels
         public int component_id { get; set; }
         [Required]
         public string component_alias { get; set; }
-
-
+        public List<ArticleText> Articles { get; set; }
+        public List<ImagePicker> Images { get; set; }
+        public List<FilePicker> Files { get; set; }
+        public List<LinkPicker> Links { get; set; }
 
     }
 }

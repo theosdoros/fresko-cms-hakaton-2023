@@ -3,6 +3,7 @@
   margin: 0%;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  
 }
 
 :root {
@@ -14,6 +15,7 @@
 .homepage-hero-container {
 
   width: 100%;
+
   display: flex;
 
 }
@@ -26,6 +28,7 @@
   background-size: cover;
   width: 100dvw;
   min-height: 100dvh;
+  
 
 }
 
@@ -218,7 +221,7 @@ a {
 .rightside-main-content-container {
 
   background-image: url('./images/LandingPageBackgroundLaptop.svg');
-  background-size: cover;
+  background-size: contain;
   width: 100%;
   height: 100%;
 }
@@ -234,4 +237,221 @@ a {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+}
+.homepage-hero-features-container {
+
+  background-color: #F8F7FF;
+  padding: 5% 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url('./images/LandingPageHighlights.svg');
+  background-repeat: no-repeat;
+  background-position: 0% 45%;
+}
+.homepage-hero-features-container 
+.homepage-hero-title-container {
+
+  font-size: 48.83px;
+  width: 80%;
+  border-bottom: 2px solid #7070FF;
+  text-align: center;
+}
+.homepage-hero-features-container 
+.homepage-hero-cards-container {
+
+  padding: 5% 0px 0px 0px;
+  min-height: 80vh;
+  width: 80%;
+  display: flex;
+  justify-content: space-evenly;
+
+
+}
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-1 {
+
+  width: 23%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 36px;
+  padding: 16px 0px 0px 0px;
+  border: 2px solid #7070FF;
+  border-radius: 20px;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-1 
+p{
+  border-bottom: 2px solid #7070FF;
+  width: 100%;
+  text-align: center;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-1
+img {
+  margin: 32px 0px 0px 0px;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-2 {
+
+  width: 23%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 36px;
+  padding: 16px 0px 0px 0px;
+  border: 2px solid #7070FF;
+  border-radius: 20px;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-2
+p{
+  border-bottom: 2px solid #7070FF;
+  width: 100%;
+  text-align: center;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-2
+img {
+  margin: 32px 0px 0px 0px;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-3 {
+
+  width: 23%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 36px;
+  padding: 16px 0px 0px 0px;
+  border: 2px solid #7070FF;
+  border-radius: 20px;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-3
+p{
+  border-bottom: 2px solid #7070FF;
+  width: 100%;
+  text-align: center;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-3
+img {
+  margin: 32px 0px 0px 0px;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-4
+p{
+  border-bottom: 2px solid #7070FF;
+  width: 100%;
+  text-align: center;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-4 {
+
+  width: 23%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 36px;
+  padding: 16px 0px 0px 0px;
+  border: 2px solid #7070FF;
+  border-radius: 20px;
+}
+.homepage-hero-features-container 
+.homepage-hero-cards-container
+.homepage-hero-card-4
+img {
+  margin: 32px 0px 0px 0px;
+}
+
+.homepage-hero-features-container 
+.homepage-hero-features-bottom {
+
+  background-image: url('./images/LandingPageHighlightsBottom.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  min-height: 163px;
+  
+}
+
+.homepage-hero-inspirational-container {
+
+  background-color: #EDEBFF;
+  text-align: center;
+
+}
+.homepage-hero-inspirational-container
+.homepage-hero-inspirational-head {
+
+  font-size: 48px;
+
+}
+.homepage-hero-inspirational-container
+.homepage-hero-inspirational-sec {
+
+  font-size: 48px;
+
+}
+
+.homepage-hero-footer-container {
+
+  min-height: 100dvh;
+  width: 100%;
+  background-image: url('./images/LandingPageFooter.svg');
+  background-repeat: no-repeat;
+
+}
+
+.homepage-hero-footer {
+
+  margin: 20% 0% 0% 0%;
+  text-align: center;
+
+}
+
+.homepage-hero-footer
+img {
+
+  height: 250px;
+
+}
+
+.Moto {
+
+  font-size: 40px;
+
+}
+
+.Copyright {
+
+  font-size: 20px;
+
 }

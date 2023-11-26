@@ -6,6 +6,13 @@ import { Link } from 'react-router-dom';
 
 import WebHeader from '../../components/web/WebHeader.js'
 
+import Logo from '../../images/LandingPageLogo.svg';
+
+import Card1 from '../../images/LandingPageCard1.svg';
+import Card2 from '../../images/LandingPageCard2.svg';
+import Card3 from '../../images/LandingPageCard3.svg';
+import Card4 from '../../images/LandingPageCard4.svg';
+
 export default function LandingPage() {
 
     useEffect(() => {
@@ -30,11 +37,46 @@ export default function LandingPage() {
                             </div>
                         </div>
                         <div className='homepage-landingpage-rightside-content-container'>
-                            <div className='rightside-main-content-container'>
-                                
+                            <div className='rightside-main-content-container'>                               
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className='homepage-hero-features-container'>
+
+                <div className='homepage-hero-title-container'>
+                    <p>Сва твоја креативност на једном месту</p>
+                </div>
+                <div className='homepage-hero-cards-container'>
+                    <div className='homepage-hero-card-1'>
+                        <p>Креирај</p>
+                        <img src={ Card1 } />
+                    </div>
+                    <div className='homepage-hero-card-2'>
+                        <p>Сачувај</p>
+                        <img src={ Card2 } />
+                    </div>
+                    <div className='homepage-hero-card-3'>
+                        <p>Подели</p>
+                        <img src={ Card3 } />
+                    </div>
+                    <div className='homepage-hero-card-4'>
+                        <p>Упознај</p>
+                        <img src={ Card4 } />
+                    </div>
+                </div>
+                <div className='homepage-hero-features-bottom'></div>
+            </div>
+            <div className='homepage-hero-footer-container'>
+                <div className='homepage-hero-inspirational-container'>
+                    <p className='homepage-hero-inspirational-head'>Ћирилица или Latinica?</p>
+                    <p className='homepage-hero-inspirational-sec'>Nije bitno<br/>Имате подршку на ћирилици и латиници</p>
+                </div>
+                <div className='homepage-hero-footer'>
+                    <img src={ Logo } />
+                    <p className='Moto'>Откри своју машту</p>
+                    <p className='Copyright'>Фреско © 2023. Лос Пољос Херманос д.о.о</p>
                 </div>
             </div>
         </>

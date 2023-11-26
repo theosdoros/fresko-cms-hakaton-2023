@@ -21,7 +21,7 @@ namespace Fresko_BE.Controllers
                 new User {Username = request.Username, Email = request.Email, Approved = false}, request.Password
             );
             if(response == "Failed" ){
-                return BadRequest(response);
+                return Ok(response);
             }
             return Ok(response);
         }

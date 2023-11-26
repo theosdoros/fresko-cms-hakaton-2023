@@ -24,8 +24,8 @@ function App() {
     var user = {
       id: Number(decoded.nameid),
       username: decoded.unique_name,
-      approved: decoded.actort,
-      isAdmin: decoded.role,
+      approved: decoded.actort == "True",
+      isAdmin: decoded.role == "True",
     };
     localStorage.setItem("currUser", JSON.stringify(user));
     setCurrUser(JSON.parse(localStorage.getItem("currUser")));

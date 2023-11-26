@@ -8,7 +8,6 @@ export default function Login({ appendUser, isLoggingOut }) {
   const [password, setPassword] = useState("");
   const [isUsernameSet, setIsUsernameSet] = useState(true);
   const [isPasswordSet, setIsPasswordSet] = useState(true);
-  const [user, setUser] = useState(null);
   const [userExists, setUserExists] = useState(true);
 
   const navigate = useNavigate();
@@ -18,10 +17,12 @@ export default function Login({ appendUser, isLoggingOut }) {
       setUserExists(false);
     } else {
       setUserExists(true);
-
-      setUser(res.data);
       appendUser(res.data);
-      navigate("/fresko/dashboard");
+      if (JSON.parse(localStorage.getItem("currUser")).approved) {
+        navigate("/fresko/dashboard");
+      } else {
+        navigate("/fresko/pending");
+      }
     }
   };
 
@@ -43,9 +44,8 @@ export default function Login({ appendUser, isLoggingOut }) {
     if (isLoggingOut) {
       localStorage.removeItem("currUser");
       appendUser(null);
-      setUser(null);
     }
-  }, [isLoggingOut, user]);
+  }, [isLoggingOut]);
 
   return (
     <div className="login_container">
@@ -54,7 +54,7 @@ export default function Login({ appendUser, isLoggingOut }) {
         <div className="login_right">
           <div className="login_logo">
             <div className="login_form">
-              <p>E-mail</p>
+              <p>Korisnicko ime</p>
               <input
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}

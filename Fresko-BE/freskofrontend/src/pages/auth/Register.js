@@ -78,7 +78,6 @@ export default function Register() {
               <div className="register_form_input_password">
               <p>ЛОЗИНКА</p>
               <input
-                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -89,7 +88,6 @@ export default function Register() {
               <div className="register_form_input_repeat_password">
               <p>ПОТВРДА ЛОЗИНКА</p>
               <input
-                type="password"
                 value={repeatPassword}
                 onChange={(e) => setIsRepeatPasswordSet(e.target.value)}
               />
@@ -101,6 +99,7 @@ export default function Register() {
                 onClick={() => {
                   setIsUsernameSet(username.trim().length !== 0);
                   setIsPasswordSet(password.trim().length !== 0);
+                  setIsRepeatPasswordSet(password.trim().length !== 0);
                   setIsEmailSet(email.trim().length !== 0);
                   if (isPasswordSet && isUsernameSet && isEmailSet && isRepeatPasswordSet) {
                     register();

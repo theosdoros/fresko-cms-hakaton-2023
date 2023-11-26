@@ -8,8 +8,6 @@ import ImagePicker from "../../components/web/ImagePicker.js";
 import LinkPicker from "../../components/web/LinkPicker.js";
 import Header from "../../components/web/Header.js";
 
-import "..//..//WebPageStyle.css";
-
 export default function WebPage() {
   const [components, setComponents] = useState([]);
   const [sortedComponents, setSortedComponents] = useState([]);
@@ -107,28 +105,22 @@ export default function WebPage() {
   };
 
   return (
-    <div className="webpage_hero_container">
+    <div className="webpage">
       <Header />
-      <div className="webpage_main_content_container">
       {sortedComponents.map((c) => {
         if (c.alias == "article") {
-          return (<div className="webpage_main_content_article"><Article data={c}/></div>);
+          return <Article data={c} />;
         }
         if (c.alias == "image") {
-          return (<div className="webpage_main_content_image"><ImagePicker data={c} /></div>);
+          return <ImagePicker data={c} />;
         }
         if (c.alias == "file") {
           return <FilePicker data={c} />;
         }
         if (c.alias == "link") {
-          return (
-            <div className="webpage_main_content_links">
-            <h1>Линкови</h1>
-            <LinkPicker data={c} />
-            </div>);
+          return <LinkPicker data={c} />;
         }
       })}
-      </div>
     </div>
   );
 }

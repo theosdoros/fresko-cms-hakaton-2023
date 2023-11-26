@@ -9,7 +9,6 @@ export default function FilePicker({ data }) {
     <div>
       <p>{data.description}</p>
       <a href={data.absolute_path}></a>
-      aaaa
     </div>
   );
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="1920.0002px" height="1080px" viewBox="0 0 1920.0002 1080" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="960" y1="542.07996" x2="960" y2="542.72003" id="gradient_1">
+      <stop offset="0%" stop-color="#B8B8FF" />
+      <stop offset="100%" stop-color="#E3E3FF" />
+    </linearGradient>
+  </defs>
+  <path d="M0 0L1920 0L1920 1080L0 1080L0 0Z" id="Rectangle-4" fill="url(#gradient_1)" fill-rule="evenodd" stroke="none" />
+  <path d="M92.0002 540C92.0002 484.772 136.772 440 192 440C247.229 440 292 484.772 292 540C292 595.228 247.229 640 192 640C136.772 640 92.0002 595.228 92.0002 540Z" id="Oval" fill="#B8B8FF" fill-rule="evenodd" stroke="none" />
+  <path d="M1629 540C1629 484.772 1673.77 440 1729 440C1784.23 440 1829 484.772 1829 540C1829 595.228 1784.23 640 1729 640C1673.77 640 1629 595.228 1629 540Z" id="Oval-2" fill="#E3E3FF" fill-rule="evenodd" stroke="none" />
+</svg>

@@ -8,11 +8,6 @@ namespace Fresko_BE.Services
 {
     public class ComponentsService
     {
-        private static AppDbContext _db;
-        public ComponentsService(AppDbContext appDbContext)
-        {
-            _db = appDbContext;
-        }
 
         public static ArticleText AddComponent(ArticleTextModel articleText)
         {

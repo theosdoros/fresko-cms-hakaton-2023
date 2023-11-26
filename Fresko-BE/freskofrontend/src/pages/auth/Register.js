@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import "../../RegisterStyle.css";
 
-import Logo from '../../images/RegisterPageLogo.svg';
+import Logo from "../../images/RegisterPageLogo.svg";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -55,61 +55,70 @@ export default function Register() {
         <div className="regsiter_image"></div>
         <div className="regsiter_left">
           <div className="regsiter_logo">
-            <img src={ Logo } />
+            <img src={Logo} />
           </div>
-            <div className="regsiter_form">
-              <div className="register_form_input_username">
+          <div className="regsiter_form">
+            <div className="register_form_input_username">
               <p>КОРИСНИЧКО ИМЕ</p>
               <input
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
               {!isUsernameSet && (
-                <p className="input_err">Polje ne može biti prazno!</p>
+                <p className="input_err">Поље не може бити празно!</p>
               )}
-              </div>
-              <div className="register_form_input_email">
+            </div>
+            <div className="register_form_input_email">
               <p>E-МАИЛ</p>
               <input value={email} onChange={(e) => setEmail(e.target.value)} />
               {!isEmailSet && (
-                <p className="input_err">Polje ne može biti prazno!</p>
+                <p className="input_err">Поље не може бити празно!</p>
               )}
-              </div>
-              <div className="register_form_input_password">
+            </div>
+            <div className="register_form_input_password">
               <p>ЛОЗИНКА</p>
               <input
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
               {!isPasswordSet && (
-                <p className="input_err">Polje ne može biti prazno!</p>
+                <p className="input_err">Поље не може бити празно!</p>
               )}
-              </div>
-              <div className="register_form_input_repeat_password">
-              <p>ПОТВРДА ЛОЗИНКА</p>
+            </div>
+            <div className="register_form_input_repeat_password">
+              <p>ПОТВРДА ЛОЗИНКЕ</p>
               <input
+                type="password"
                 value={repeatPassword}
-                onChange={(e) => setIsRepeatPasswordSet(e.target.value)}
+                onChange={(e) => setRepeatPassword(e.target.value)}
               />
               {!isRepeatPasswordSet && (
-                <p className="input_err">Polje ne može biti prazno!</p>
+                <p className="input_err">Поље не може бити празно!</p>
               )}
-              </div>
-              <button
-                onClick={() => {
-                  setIsUsernameSet(username.trim().length !== 0);
-                  setIsPasswordSet(password.trim().length !== 0);
-                  //setIsRepeatPasswordSet(password.trim().length !== 0);
-                  setIsEmailSet(email.trim().length !== 0);
-                  if (isPasswordSet && isUsernameSet && isEmailSet && isRepeatPasswordSet) {
-                    register();
-                    setValidation(true);
-                  }
-                }}
-              >
-                РЕГИСРУЈ МЕ
-              </button>
-              {!validation && <p>Kredencijali koje ste uneli su neispravni!</p>}
+            </div>
+            <button
+              onClick={() => {
+                setIsUsernameSet(username.trim().length !== 0);
+                setIsPasswordSet(password.trim().length !== 0);
+                setIsRepeatPasswordSet(password.trim().length !== 0);
+                setIsEmailSet(email.trim().length !== 0);
+                if (
+                  isPasswordSet &&
+                  isUsernameSet &&
+                  isEmailSet &&
+                  isRepeatPasswordSet &&
+                  password == repeatPassword
+                ) {
+                  register();
+                  setValidation(true);
+                }
+              }}
+            >
+              РЕГИСРУЈ МЕ
+            </button>
+            {!validation && <p>Креденцијали које сте унели су неисправни!</p>}
+            {password != repeatPassword && <p>Шифре се не покпапају!</p>}
           </div>
           <div className="register_login">
             <p>

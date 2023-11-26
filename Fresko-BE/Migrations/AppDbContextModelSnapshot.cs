@@ -238,6 +238,9 @@ namespace Fresko_BE.Migrations
                     b.Property<int>("parent_id")
                         .HasColumnType("int");
 
+                    b.Property<int>("user_id")
+                        .HasColumnType("int");
+
                     b.Property<int>("userid")
                         .HasColumnType("int");
 
@@ -315,8 +318,8 @@ namespace Fresko_BE.Migrations
                             approved = true,
                             email = "admin@admin.com",
                             is_admin = true,
-                            password_hash = new byte[] { 103, 59, 56, 237, 89, 44, 139, 169, 54, 162, 86, 99, 145, 7, 58, 171, 240, 208, 148, 186, 192, 229, 6, 113, 104, 10, 31, 212, 60, 229, 131, 8, 136, 8, 152, 136, 188, 53, 79, 94, 221, 157, 228, 55, 225, 25, 60, 71, 191, 228, 118, 54, 78, 194, 110, 237, 249, 71, 195, 72, 3, 40, 3, 208 },
-                            password_salt = new byte[] { 195, 154, 129, 207, 19, 128, 255, 25, 252, 18, 170, 129, 191, 205, 226, 212, 252, 89, 8, 176, 212, 72, 247, 241, 240, 120, 222, 103, 239, 250, 244, 116, 238, 29, 195, 47, 160, 238, 112, 148, 153, 214, 24, 244, 53, 200, 154, 185, 110, 80, 172, 187, 143, 56, 24, 29, 109, 104, 148, 40, 87, 226, 88, 146, 138, 195, 155, 81, 48, 80, 105, 136, 76, 173, 212, 182, 154, 214, 126, 92, 113, 159, 78, 189, 119, 160, 217, 188, 197, 215, 204, 207, 111, 194, 109, 224, 255, 208, 170, 12, 19, 45, 92, 58, 21, 187, 65, 56, 59, 126, 89, 82, 154, 21, 230, 63, 135, 14, 146, 207, 44, 184, 149, 40, 223, 34, 246, 162 },
+                            password_hash = new byte[] { 224, 105, 191, 115, 133, 193, 173, 101, 128, 191, 8, 204, 170, 123, 22, 36, 145, 110, 22, 36, 34, 60, 211, 101, 234, 251, 238, 127, 51, 115, 143, 203, 23, 71, 50, 93, 48, 227, 149, 35, 154, 114, 189, 122, 215, 49, 213, 9, 130, 227, 105, 93, 117, 50, 211, 111, 224, 5, 131, 215, 22, 127, 168, 233 },
+                            password_salt = new byte[] { 235, 12, 152, 197, 184, 141, 68, 170, 66, 105, 78, 124, 64, 54, 68, 165, 182, 187, 115, 68, 15, 21, 144, 115, 181, 167, 120, 102, 167, 70, 46, 115, 88, 31, 238, 104, 210, 171, 246, 187, 116, 190, 150, 58, 12, 152, 79, 77, 16, 218, 50, 126, 62, 206, 172, 152, 120, 162, 42, 18, 232, 71, 220, 96, 46, 102, 132, 147, 208, 94, 235, 75, 86, 57, 17, 183, 171, 135, 107, 28, 108, 133, 99, 151, 157, 99, 51, 104, 227, 158, 241, 164, 78, 12, 21, 62, 80, 57, 17, 14, 86, 6, 47, 99, 1, 61, 209, 19, 16, 106, 69, 186, 7, 234, 155, 105, 112, 72, 46, 35, 139, 162, 251, 56, 147, 73, 71, 254 },
                             username = "admin"
                         });
                 });
@@ -324,7 +327,10 @@ namespace Fresko_BE.Migrations
             modelBuilder.Entity("Fresko_BE.Models.PageModel", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -336,7 +342,12 @@ namespace Fresko_BE.Migrations
                     b.Property<int>("ParentId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("PageModel");
                 });
@@ -420,13 +431,11 @@ namespace Fresko_BE.Migrations
 
             modelBuilder.Entity("Fresko_BE.Models.PageModel", b =>
                 {
-                    b.HasOne("Fresko_BE.Data.TableModels.User", "User")
+                    b.HasOne("Fresko_BE.Data.TableModels.User", null)
                         .WithMany("pages")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Fresko_BE.Data.TableModels.User", b =>

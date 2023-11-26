@@ -1,0 +1,189 @@
+.dashboard-hero-container {
+
+    background-color: #F8F7FF;
+    display: flex;
+    height: 100dvh;
+    width: 100%;
+
+}
+.dashboard-hero-container
+.dashboard-addpage-container {
+
+    background-color: #9999FF;
+    padding: 10% 5%;
+
+}
+
+.dashboard-hero-container
+.dashboard-addpage-container
+.dashboard-addpage-button {
+
+    font-size: 24px;
+    width: 100%;
+    text-align: left;
+    padding: 0px 16px;
+    border: 0;
+    color: #F8F7FF;
+    background-color: transparent;
+    border-bottom: 2px solid #F8F7FF;
+
+    cursor: pointer;
+
+    transition: 0.4s all;
+
+}
+
+.dashboard-hero-container
+.dashboard-addpage-container
+.dashboard-addpage-button i{
+
+    margin: 0px 0px 0px 59%;
+}
+
+.dashboard-hero-container
+.dashboard-addpage-container
+.dashboard-addpage-button:hover {
+
+
+    color: black;
+    background-color: #F8F7FF;
+    border-bottom: 2px solid #F8F7FF;
+
+    transition: 0.4s all;
+
+}
+
+.dashboard-hero-container
+.dashboard-addpage-container
+.dashboard-added-button {
+
+    font-size: 16px;
+    color: #F8F7FF;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+    padding: 8px;
+    margin: 0px 8px;
+    text-align: left;
+    border-radius: 10px;
+
+    transition: 0.4s;
+
+}
+
+.dashboard-hero-container
+.dashboard-addpage-container
+.dashboard-added-button:hover {
+
+    font-size: 20px;
+    color: black;
+    background-color: #F8F7FF;
+    transition: 0.4s;
+
+}
+
+.dashboard-header {
+
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+}
+
+.dashboard-confirm-button {
+
+    font-size: 24px;
+    color: #F8F7FF;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+
+    margin: 16px 0px 0px 0px;
+
+    transition: 0.3s all;
+
+}
+
+.dashboard-input-pagename {
+
+    width: 100%;
+    font-size: 20px;
+    padding: 8px 16px;
+    border: 4px solid #F8F7FF;
+    border-radius: 30px;
+    margin: 16px 0px 0px 0px;
+
+}
+
+.dashboard-confirm-button:hover {
+
+    font-size: 24px;
+    color: black;
+    background-color: #F8F7FF;
+    border: 0;
+    cursor: pointer;
+
+    transition: 0.3s all;
+
+}
+
+.dashboard-confirm-button .fa-plus {
+    font-size: 16px;
+}
+
+.dashboard-header
+a {
+
+    padding: 0px 16px 0px 0px;
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+
+}
+.dashboard-header
+a
+i {
+
+    padding: 0px 0px 0px 8px;
+
+}
+.dashboard-hero-main-content {
+
+    width: 80%;
+    height: 100%;
+
+}
+
+.dashboard-article-write-content {
+
+    width: 100%;
+    height: 90%;
+    padding: 16px;
+
+}
+.dashboard-article-write-content
+textarea {
+
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+    border: 4px solid #9999FF;
+    border-radius: 20px;
+
+}
+
+.fa-file {
+
+    font-size: 12px;
+    padding: 0px 8px 0px 0px;
+
+}
+
+.fa-plus {
+
+    color: #F8F7FF;
+    
+
+}

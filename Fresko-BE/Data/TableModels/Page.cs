@@ -12,18 +12,14 @@ namespace Fresko_BE.Data.TableModels
         public int id { get; set; }
         [Required]
         public int parent_id { get; set; }
-
-        /*[Required]
-        public int user_id { get; set; }
-
         [Required]
-        public int page_id { get; set; }*/
+        public int user_id { get; set; }
 
         [Required, StringLength(128)]
         public string page_name { get; set; }
         [Required, DataType(DataType.DateTime)]
         public DateTime creation_date { get; set; }
-        [Required] 
+        [Required]
         public List<AllComponents> Components { get; } = new();
 
         public User user { get; set; } = null!;

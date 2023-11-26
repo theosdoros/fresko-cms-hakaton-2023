@@ -21,27 +21,29 @@ namespace Fresko_BE.Controllers
         }
 
         [HttpGet]
-        public string Index()
+        public async Task<ActionResult<List<PageModel>>> Index()
         {
-            return "RADI";
+            var pages = _database.Pages.ToList();
+            return Ok(pages);
         }
 
-        [Authorize]
+
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] PageModel model)
+        public async Task<ActionResult<PageModel>> Create([FromBody] PageViewRequest pageView)
         {
-            if (!ApprovedCheck())
-            {
-                return BadRequest();
-            }
+            //    if (!ApprovedCheck())
+            //    {
+            //        return BadRequest();
+            //    }
             try
             {
-                Page page = ComponentsService.AddComponent(model);
+                Page page = PageService.AddPage(pageView);
+                page.user = await _database.Users.FindAsync(pageView.UserId);
 
                 await _database.Pages.AddAsync(page);
                 await _database.SaveChangesAsync();
 
-                return Ok(model);
+                return Ok(page);
             }
             catch (Exception ex)
             {
@@ -75,7 +77,7 @@ namespace Fresko_BE.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> DeletePOST(int? id)
+        public async Task<IActionResult> DeletePage(int? id)
         {
             if (!ApprovedCheck())
             {
@@ -92,6 +94,7 @@ namespace Fresko_BE.Controllers
             TempData["success"] = "Page deleted successfully.";
             return Ok(obj);
         }
+
 
         [HttpGet]
         [Route("/{pageName}")]
@@ -121,6 +124,90 @@ namespace Fresko_BE.Controllers
 
             return Ok(webPageView);
         }
+
+        [HttpGet]
+        [Route("/page/{pageId}")]
+        public async Task<ActionResult<WebPageView>> GetPageById(int pageId)
+        {
+            //if (!ApprovedCheck())
+            //{
+            //    return BadRequest();
+            //}
+            if (pageId == null || pageId == 0)
+            {
+                return NotFound();
+            }
+
+            Page pageFromDatabase = await _database.Pages.FindAsync(pageId);
+
+            if (pageFromDatabase == null)
+            {
+                return NotFound();
+            }
+
+            WebPageView webPageView = new WebPageView()
+            {
+                pageId = pageId,
+                Articles = _database.Articles.Where(a => a.page.id == pageId).ToList(),
+                Images = _database.Images.Where(a => a.page.id == pageId).ToList(),
+                Files = _database.Files.Where(a => a.page.id == pageId).ToList(),
+                Links = _database.Links.Where(a => a.page.id == pageId).ToList()
+            };
+
+            return Ok(webPageView);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<WebPageView>> UpdatePage([FromBody] WebPageView webPageView)
+        {
+            if (webPageView.pageId == null || webPageView.pageId == 0)
+            {
+                return NotFound();
+            }
+
+            var page = await _database.Pages.FindAsync(webPageView.pageId);
+
+            if (page == null) { return NotFound(); }
+
+            var newArticles = webPageView.Articles.Where(a => a.id == 0);
+            var newLinks = webPageView.Links.Where(a => a.id == 0);
+            var newImages = webPageView.Images.Where(a => a.id == 0);
+            var newFiles = webPageView.Files.Where(a => a.id == 0);
+
+            foreach (var na in newArticles)
+            {
+                _database.Articles.AddAsync(na);
+            }
+
+            foreach (var nl in newLinks)
+            {
+                _database.Links.AddAsync(nl);
+            }
+
+            foreach (var ni in newImages)
+            {
+                _database.Images.AddAsync(ni);
+            }
+            foreach (var nf in newFiles)
+            {
+                _database.Files.AddAsync(nf);
+            }
+
+            await _database.SaveChangesAsync();
+
+            WebPageView updatedPageView = new WebPageView()
+            {
+                pageId = webPageView.pageId,
+                Articles = _database.Articles.Where(a => a.page.id == webPageView.pageId).ToList(),
+                Images = _database.Images.Where(a => a.page.id == webPageView.pageId).ToList(),
+                Files = _database.Files.Where(a => a.page.id == webPageView.pageId).ToList(),
+                Links = _database.Links.Where(a => a.page.id == webPageView.pageId).ToList()
+            };
+
+            return Ok(updatedPageView);
+        }
+
+
         private bool ApprovedCheck()
         {
             string isApproved = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Actor)!.Value;

@@ -12,6 +12,7 @@ import LandingPage from "./pages/web/LandingPage.js";
 import Media from "./pages/backoffice/Media.js";
 import AdminPanel from "./pages/backoffice/AdminPanel.js";
 import Dashboard from "./pages/backoffice/Dashboard.js";
+import BeHeader from "./components/backoffice/BeHeader.js";
 import AboutUsPage from "./pages/web/AboutUsPage.js";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
       isAdmin: decoded.role == "True",
     };
     localStorage.setItem("currUser", JSON.stringify(user));
+    localStorage.setItem("token", u);
     setCurrUser(JSON.parse(localStorage.getItem("currUser")));
   };
 
@@ -38,8 +40,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <>
-        <Route path="/"
-        element={<LandingPage/>} />
+          <Route path="/" element={<LandingPage />} />
         </>
         <>
         <Route path="/fresko/about"
@@ -65,7 +66,9 @@ function App() {
               element={<Dashboard user={currUser} />}
             />
             <Route path="/fresko/media" element={<Media />} />
-            <Route path="/fresko/admin-panel" element={<AdminPanel />} />
+            {currUser.isAdmin && (
+              <Route path="/fresko/admin-panel" element={<AdminPanel />} />
+            )}
           </>
         )}
         {currUser != null && !currUser.approved && (

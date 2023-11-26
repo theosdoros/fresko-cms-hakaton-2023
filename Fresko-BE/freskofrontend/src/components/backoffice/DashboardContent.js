@@ -7,6 +7,8 @@ import ImagePicker from "./ImagePicker.js";
 import FilePicker from "./FilePicker.js";
 import LinkPicker from "./LinkPicker.js";
 
+import "../../DashboardContentStyle.css";
+
 export default function DashboardContent({ page, pageName }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [initData, setData] = useState(null);
@@ -195,9 +197,9 @@ export default function DashboardContent({ page, pageName }) {
   return (
     <div>
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div>
-          <h3>Choose a component</h3>
-          <button
+        <div className="dialog-hero-content">
+          <h3>Изабери компоненту</h3>
+          <button 
             onClick={() => {
               setIsModalOpen(false);
               setCurrComponent("article");
@@ -211,7 +213,7 @@ export default function DashboardContent({ page, pageName }) {
               setCurrComponent(obj);
             }}
           >
-            Add Article Text
+            Додај нови артикл
           </button>
           <br />
           <br />
@@ -230,7 +232,7 @@ export default function DashboardContent({ page, pageName }) {
               setCurrComponent(obj);
             }}
           >
-            Add Link Picker
+            Додај линк
           </button>
           <br />
           <br />
@@ -240,7 +242,7 @@ export default function DashboardContent({ page, pageName }) {
               setCurrComponent("image");
             }}
           >
-            Add Image Picker
+            Додај слику
           </button>
           <br />
           <br />
@@ -250,7 +252,7 @@ export default function DashboardContent({ page, pageName }) {
               setCurrComponent("file");
             }}
           >
-            Add File Picker
+            Додај фајл
           </button>
           <br />
           <br />

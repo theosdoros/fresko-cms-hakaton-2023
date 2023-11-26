@@ -6,11 +6,11 @@ export default function BeHeader() {
   useEffect(() => {}, []);
 
   return (
-    <div>
-      <a href="/fresko/dashboard">sardzaj</a>
-      <a href="/fresko/media">medije</a>
+    <div className="dashboard-header">
+      <a href="/fresko/dashboard">Садржај<i class="fa-solid fa-book"></i></a>
+      <a href="/fresko/media">Медије<i class="fa-solid fa-photo-film"></i></a>
       {JSON.parse(localStorage.getItem("currUser")) && (
-        <a href="/fresko/admin-panel">admin panel</a>
+        <a href="/fresko/admin-panel">Администраторски панел<i class="fa-solid fa-address-card"></i></a>
       )}
     </div>
   );

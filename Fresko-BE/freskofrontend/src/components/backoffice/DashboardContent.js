@@ -9,19 +9,23 @@ import LinkPicker from "./LinkPicker.js";
 
 export default function DashboardContent({ page, pageName }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [initData, setData] = useState(null);
   const [currComponent, setCurrComponent] = useState(null);
   const [componentList, setComponentList] = useState([]);
   const [components, setComponents] = useState([]);
   const [sortedComponents, setSortedComponents] = useState([]);
 
   const getComponents = async () => {
+    if (page == null) return;
     await axios
       .get(route + "/page/" + page.id)
       .then((res) => {
+        setData(res.data);
         organizeComponents(res.data);
       })
       .catch((err) => console.log(err));
   };
+
   const organizeComponents = (pageData) => {
     var pageData = pageData;
     if (pageData == null) return;
@@ -93,12 +97,90 @@ export default function DashboardContent({ page, pageName }) {
   };
 
   const updateComponent = (componentData) => {
-    var component = sortedComponents.find(componentData.id);
-    if (component == null) {
-      //create to append to page and component table
-    } else {
-      //update
+    //create to append to page and component table
+    console.log(componentData);
+    console.log("initdata");
+    console.log(initData);
+    var temp = initData;
+
+    switch (componentData.alias) {
+      case "article":
+        var art = temp.articles.filter(
+          (a) => a.position == componentData.position
+        );
+
+        if (art[0] == undefined) {
+          temp.articles.push(componentData);
+        } else {
+          temp.articles.splice(
+            temp.articles.findIndex(
+              (a) => a.position == componentData.position
+            ),
+            1
+          );
+          temp.articles.push(componentData);
+        }
+        break;
+      case "link":
+        var art = temp.links.filter(
+          (a) => a.position == componentData.position
+        );
+
+        if (art[0] == undefined) {
+          temp.links.push(componentData);
+        } else {
+          temp.links.splice(
+            temp.links.findIndex((a) => a.position == componentData.position),
+            1
+          );
+          temp.links.push(componentData);
+        }
+        break;
+      case "image":
+        var art = temp.images.filter(
+          (a) => a.position == componentData.position
+        );
+        if (art.size == 0) {
+          temp.images.push(componentData);
+        }
+        break;
+      case "file":
+        var art = temp.files.filter(
+          (a) => a.position == componentData.position
+        );
+        if (art == undefined) {
+          temp.files.push(componentData);
+        }
+        break;
+      default:
+        console.log("error");
+        break;
     }
+    console.log("after");
+    console.log(temp);
+    setData(temp);
+  };
+
+  const publishPage = async () => {
+    console.log(initData);
+    var obj = {
+      pageId: page.id,
+      articles: initData.articles,
+      links: initData.links,
+      images: initData.images,
+      files: initData.files,
+    };
+    console.log(obj);
+    await axios
+      .post(route + "/page/UpdatePage", {
+        pageId: page.id,
+        articles: initData.articles,
+        links: initData.links,
+        images: initData.images,
+        files: initData.files,
+      })
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -119,15 +201,14 @@ export default function DashboardContent({ page, pageName }) {
             onClick={() => {
               setIsModalOpen(false);
               setCurrComponent("article");
-              setComponents((components) => [
-                ...components,
-                {
-                  text: "",
-                  position: components.length + 1,
-                  creation_date: Date.now,
-                  alias: "article",
-                },
-              ]);
+              var obj = {
+                text: "",
+                position: components.length + 1,
+                creation_date: Date.now,
+                alias: "article",
+              };
+              setComponents((components) => [...components, obj]);
+              setCurrComponent(obj);
             }}
           >
             Add Article Text
@@ -138,16 +219,15 @@ export default function DashboardContent({ page, pageName }) {
             onClick={() => {
               setIsModalOpen(false);
               setCurrComponent("link");
-              setComponents((components) => [
-                ...components,
-                {
-                  url: "",
-                  name_overwrite: "",
-                  position: components.length + 1,
-                  creation_date: Date.now,
-                  alias: "link",
-                },
-              ]);
+              var obj = {
+                url: "",
+                name_overwrite: "",
+                position: components.length + 1,
+                creation_date: Date.now,
+                alias: "link",
+              };
+              setComponents((components) => [...components, obj]);
+              setCurrComponent(obj);
             }}
           >
             Add Link Picker
@@ -183,6 +263,7 @@ export default function DashboardContent({ page, pageName }) {
             return (
               <Article
                 data={c}
+                page={page}
                 position={index}
                 updatedData={updateComponent}
               />
@@ -210,6 +291,7 @@ export default function DashboardContent({ page, pageName }) {
             return (
               <LinkPicker
                 data={c}
+                page={page}
                 position={index}
                 updatedData={updateComponent}
               />
@@ -217,7 +299,7 @@ export default function DashboardContent({ page, pageName }) {
           }
         })}
       </div>
-      <button>Објави старницу :)</button>
+      <button onClick={() => publishPage()}>Објави старницу :)</button>
     </div>
   );
 }

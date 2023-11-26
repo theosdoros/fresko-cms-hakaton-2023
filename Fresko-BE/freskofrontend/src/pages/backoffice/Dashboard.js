@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import DashboardContent from "../../components/backoffice/DashboardContent.js";
 import BeHeader from "../../components/backoffice/BeHeader.js";
 
+import "../../DashboardStyle.css";
+
 export default function Dashboard() {
   const [pages, setPages] = useState([]);
   const [sortedPages, setSortedPages] = useState([]);
@@ -62,17 +64,17 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div>
-      <BeHeader />
+    <div className="dashboard-hero-container">
+      
       <div>
-        <div style={{ width: "30vw", height: "30vw", backgroundColor: "pink" }}>
-          <button
+        <div style={{ width: "30vw", height: "100%",}} className="dashboard-addpage-container">
+          <button className="dashboard-addpage-button"
             onClick={() => {
               setPageName(null);
               setParentIdState(0);
             }}
           >
-            Add page
+            Додај страницу <i class="fa-solid fa-plus"></i>
           </button>
           <br />
           <br />
@@ -80,13 +82,13 @@ export default function Dashboard() {
             if (el.parent_id != 0) {
               return (
                 <div>
-                  <button
+                  <button className="dashboard-added-button"
                     onClick={() => {
                       setPageName(el.page_name);
                       setSelectedPage(el);
                     }}
                     style={{ marginLeft: "25px" }}
-                  >
+                  ><i class="fa-solid fa-file"></i>
                     {el.page_name}
                   </button>
                   <br />
@@ -95,48 +97,54 @@ export default function Dashboard() {
             } else {
               return (
                 <div>
-                  <button
+                  <button className="dashboard-added-button"
                     onClick={() => {
                       setPageName(el.page_name);
                       setSelectedPage(el);
                     }}
-                  >
+                  ><i class="fa-solid fa-file"></i>
                     {el.page_name}
                   </button>
-                  <button
+                  <button className="dashboard-added-button"
                     onClick={() => {
                       setPageName(null);
                       setParentIdState(el.id);
                     }}
                   >
-                    Add page
-                  </button>
+                    Додај страницу
+                  </button><i class="fa-solid fa-plus"></i>
                   <br />
                 </div>
               );
             }
           })}
-        </div>
-        {pageName == null && (
+          {pageName == null && (
           <div>
-            <input
+            <input className="dashboard-input-pagename" placeholder="Унеси име странице овде"
               value={newPageName}
               onChange={(event) => setNewPageName(event.target.value)}
             />
             <br />
-            <button
+            <button className="dashboard-confirm-button"
               onClick={() => {
                 createPage();
                 setPageName(newPageName);
               }}
             >
-              Potvrdi
+              Потврди<i class="fa-solid fa-plus"></i>
             </button>
           </div>
         )}
         {pageName != null && (
           <DashboardContent page={selectedPage} pageName={pageName} />
         )}
+      </div>
+      </div>
+      <div className="dashboard-hero-main-content">
+      <BeHeader />
+          <div className="dashboard-article-write-content">
+              <textarea ></textarea>
+          </div>
       </div>
     </div>
   );

@@ -7,6 +7,8 @@ import ImagePicker from "./ImagePicker.js";
 import FilePicker from "./FilePicker.js";
 import LinkPicker from "./LinkPicker.js";
 
+import "../../DashboardContentStyle.css";
+
 export default function DashboardContent({ page, pageName }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currComponent, setCurrComponent] = useState(null);
@@ -15,6 +17,7 @@ export default function DashboardContent({ page, pageName }) {
   const [sortedComponents, setSortedComponents] = useState([]);
 
   const getComponents = async () => {
+    if ( page == null ) return;
     await axios
       .get(route + "/page/" + page.id)
       .then((res) => {
@@ -113,9 +116,9 @@ export default function DashboardContent({ page, pageName }) {
   return (
     <div>
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div>
-          <h3>Choose a component</h3>
-          <button
+        <div className="dialog-hero-content">
+          <h3>Изабери компоненту</h3>
+          <button 
             onClick={() => {
               setIsModalOpen(false);
               setCurrComponent("article");
@@ -130,7 +133,7 @@ export default function DashboardContent({ page, pageName }) {
               ]);
             }}
           >
-            Add Article Text
+            Додај нови артикл
           </button>
           <br />
           <br />
@@ -150,7 +153,7 @@ export default function DashboardContent({ page, pageName }) {
               ]);
             }}
           >
-            Add Link Picker
+            Додај линк
           </button>
           <br />
           <br />
@@ -160,7 +163,7 @@ export default function DashboardContent({ page, pageName }) {
               setCurrComponent("image");
             }}
           >
-            Add Image Picker
+            Додај слику
           </button>
           <br />
           <br />
@@ -170,7 +173,7 @@ export default function DashboardContent({ page, pageName }) {
               setCurrComponent("file");
             }}
           >
-            Add File Picker
+            Додај фајл
           </button>
           <br />
           <br />

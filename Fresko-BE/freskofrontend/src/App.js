@@ -13,6 +13,7 @@ import Media from "./pages/backoffice/Media.js";
 import AdminPanel from "./pages/backoffice/AdminPanel.js";
 import Dashboard from "./pages/backoffice/Dashboard.js";
 import BeHeader from "./components/backoffice/BeHeader.js";
+import AboutUsPage from "./pages/web/AboutUsPage.js";
 
 function App() {
   const [currUser, setCurrUser] = useState(
@@ -40,6 +41,10 @@ function App() {
       <Routes>
         <>
           <Route path="/" element={<LandingPage />} />
+        </>
+        <>
+        <Route path="/fresko/about"
+        element={<AboutUsPage/>} />
         </>
         {currUser == null && (
           <>

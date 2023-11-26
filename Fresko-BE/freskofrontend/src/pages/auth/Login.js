@@ -96,7 +96,7 @@ export default function Login({ appendUser, isLoggingOut }) {
           </div>
           <div className="login_register">
             <p>
-              Имаш налог? <Link to="/fresko/register">Пријави се!</Link>
+              Имаш налог? <Link to="/fresko/register">Региструј се!</Link>
             </p>
           </div>
         </div>

@@ -27,17 +27,6 @@ namespace Fresko_BE.Controllers
         }
 
         [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            if (!ApprovedCheck())
-            {
-                return BadRequest();
-            }
-            return Ok();
-        }
-
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] PageModel model)
         {
@@ -58,29 +47,6 @@ namespace Fresko_BE.Controllers
             {
                 return BadRequest();
             }
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (!ApprovedCheck())
-            {
-                return BadRequest();
-            }
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            var pageFromDatabase = await _database.Pages.FindAsync(id);
-
-            if (pageFromDatabase == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(pageFromDatabase);
         }
 
         [Authorize]
@@ -105,29 +71,6 @@ namespace Fresko_BE.Controllers
                 return BadRequest();
             }
 
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (!ApprovedCheck())
-            {
-                return BadRequest();
-            }
-            if (id == null || id == 0)
-            {
-                return BadRequest();
-            }
-
-            var pageFromDatabase = await _database.Pages.FindAsync(id);
-
-            if (pageFromDatabase == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(pageFromDatabase);
         }
 
         [Authorize]

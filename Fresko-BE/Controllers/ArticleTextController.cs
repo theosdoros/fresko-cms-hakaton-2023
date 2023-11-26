@@ -28,16 +28,6 @@ namespace Fresko_BE.Controllers
             return "RADI";
         }
 
-        //GET
-        [HttpGet]
-        public IActionResult Create()
-        {
-            if(!ApprovedCheck()){
-                return BadRequest();
-            }
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddArticle([FromBody] ArticleTextModel model)
         {
@@ -59,29 +49,6 @@ namespace Fresko_BE.Controllers
             }
         }
 
-        //GET
-        [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if(!ApprovedCheck()){
-                return BadRequest();
-            }
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            var articleTextFromDatabase = await _database.Articles.FindAsync(id);
-
-            if (articleTextFromDatabase == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(articleTextFromDatabase);
-        }
-
-        //POST
         [HttpPost]
         public async Task<IActionResult> Edit([FromBody] ArticleTextModel model)
         {
@@ -104,29 +71,6 @@ namespace Fresko_BE.Controllers
 
         }
 
-        //GET
-        [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if(!ApprovedCheck()){
-                return BadRequest();
-            }
-            if (id == null || id == 0)
-            {
-                return BadRequest();
-            }
-
-            var articleTextFromDatabase = await _database.Articles.FindAsync(id);
-
-            if (articleTextFromDatabase == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(articleTextFromDatabase);
-        }
-
-        //POST
         [HttpPost]
         public async Task<IActionResult> DeletePOST(int? id)
         {

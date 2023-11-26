@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
 
 namespace Fresko_BE.Data.TableModels
 {
@@ -24,5 +25,7 @@ namespace Fresko_BE.Data.TableModels
         public DateTime creation_date { get; set; }
         [Required] 
         public List<AllComponents> Components { get; } = new();
+
+        public User user { get; set; } = null!;
     }
 }

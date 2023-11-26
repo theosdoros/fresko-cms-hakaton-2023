@@ -15,7 +15,7 @@ namespace Fresko_BE.Models
 
         public bool Is_admin { get; set;} = false;
 
-        public List<Page> Pages { get; set; }
+        public List<PageModel> Pages { get; set; } = new List<PageModel>();
 
     }
 

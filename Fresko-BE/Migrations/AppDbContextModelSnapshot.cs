@@ -31,12 +31,17 @@ namespace Fresko_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int?>("PageModelId")
+                        .HasColumnType("int");
+
                     b.Property<string>("name")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
                     b.HasKey("id");
+
+                    b.HasIndex("PageModelId");
 
                     b.ToTable("all_components");
 
@@ -163,9 +168,6 @@ namespace Fresko_BE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int?>("Userid")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("creation_date")
                         .HasColumnType("datetime2");
 
@@ -177,9 +179,12 @@ namespace Fresko_BE.Migrations
                     b.Property<int>("parent_id")
                         .HasColumnType("int");
 
+                    b.Property<int>("userid")
+                        .HasColumnType("int");
+
                     b.HasKey("id");
 
-                    b.HasIndex("Userid");
+                    b.HasIndex("userid");
 
                     b.ToTable("pages");
                 });
@@ -220,6 +225,26 @@ namespace Fresko_BE.Migrations
                     b.ToTable("users");
                 });
 
+            modelBuilder.Entity("Fresko_BE.Models.PageModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ParentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PageModel");
+                });
+
             modelBuilder.Entity("page_content", b =>
                 {
                     b.Property<int>("page_id")
@@ -235,11 +260,33 @@ namespace Fresko_BE.Migrations
                     b.ToTable("page_content");
                 });
 
+            modelBuilder.Entity("Fresko_BE.Data.TableModels.AllComponents", b =>
+                {
+                    b.HasOne("Fresko_BE.Models.PageModel", null)
+                        .WithMany("Content")
+                        .HasForeignKey("PageModelId");
+                });
+
             modelBuilder.Entity("Fresko_BE.Data.TableModels.Page", b =>
                 {
-                    b.HasOne("Fresko_BE.Data.TableModels.User", null)
+                    b.HasOne("Fresko_BE.Data.TableModels.User", "user")
+                        .WithMany()
+                        .HasForeignKey("userid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Fresko_BE.Models.PageModel", b =>
+                {
+                    b.HasOne("Fresko_BE.Data.TableModels.User", "User")
                         .WithMany("pages")
-                        .HasForeignKey("Userid");
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("page_content", b =>
@@ -260,6 +307,11 @@ namespace Fresko_BE.Migrations
             modelBuilder.Entity("Fresko_BE.Data.TableModels.User", b =>
                 {
                     b.Navigation("pages");
+                });
+
+            modelBuilder.Entity("Fresko_BE.Models.PageModel", b =>
+                {
+                    b.Navigation("Content");
                 });
 #pragma warning restore 612, 618
         }

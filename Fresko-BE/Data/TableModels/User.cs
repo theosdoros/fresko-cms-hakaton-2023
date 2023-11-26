@@ -1,3 +1,5 @@
+using Fresko_BE.Models;
+using Microsoft.Extensions.Hosting;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Eventing.Reader;
@@ -22,6 +24,6 @@ namespace Fresko_BE.Data.TableModels
         [Required]
         public bool is_admin { get; set;}
 
-        public List<Page> pages { get; set; }
+        public List<PageModel> pages { get; }
     }
 }
